@@ -1,0 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800&family=Reem+Kufi+Fun:wght@400;500;600;700&display=swap');
+
+body{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.login-header-span{
+  color: #32A8CD;
+  font-weight: 700;
+}
+h1{
+  text-align: center;
+  font-family: Reem Kufi Fun;
+  font-size: 36px;
+  font-style: normal;
+  color:white;
+  margin:15px 0px 15px 0px;
+}
+h2{
+  text-align: center;
+  font-family: Outfit;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  color: #9598A7;
+  margin:0;
+}
+.container{
+  background: #222431;
+  display:grid;
+  place-items:center;
+  align-items: center;
+  height: 100dvh;
+  margin: 0;
+}
+.container-login{
+  background: #282A37;
+  padding: 70px;
+}
+.container-login-inputs{
+  display:grid;
+  gap:15px;
+}
+input{
+  border-radius: 46px;
+  border:none;
+  padding:10px 10px 10px 10px;
+  outline:none;
+  background: #323544;
+  color:white;
+  font-family: Outfit;
+  padding-left: 20px;;
+  font-size: 15px;
+  border:1px solid rgba(255, 255, 255, 0);
+
+}
+input:focus{
+  background: #282b39;
+  border:1px solid rgba(255, 255, 255, 0.332);
+}
+button{
+  border-radius: 46px;
+  background: #32A8CD;
+  font-family: Outfit;
+  border:none;
+  outline:none;
+  color:white;
+  font-size: 20px;
+  height: 45px;
+}
+.container-login-buttons{
+  display:grid;
+  margin-top: 18px;
+  grid-template-columns: 60% 50%;
+  align-items: center;
+}
+.register-button,.login-button{
+  cursor:pointer;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active  {
+-webkit-box-shadow: 0 0 0 30px rgb(50, 53, 68) inset !important;
+color:white !important;
+}
+input:-webkit-autofill {
+  -webkit-text-fill-color: white !important;
+  }
