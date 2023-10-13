@@ -12,7 +12,7 @@
 
           <div class="container-register-header">
             <h2>Skorzystaj z platformy <span class='register-header-span'>sociali.se</span></h2>
-            <h1>Zaloguj się</h1>
+            <h1>Rejestracja</h1>
           </div>
 
           <div class="container-register-inputs">
@@ -23,7 +23,7 @@
 
           <div class="container-register-buttons">
             <button class="register-button">Zarejestruj się</button>
-            <h2 class="register-button"><u>Logowanie</u></h2>
+            <a href="../login/login.php"><h2 class="register-button"><u>Logowanie</u></h2></a>
           </div>
 
         </div>

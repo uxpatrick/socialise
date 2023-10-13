@@ -22,7 +22,7 @@
 
           <div class="container-login-buttons">
             <button class="login-button">Zaloguj się</button>
-            <h2 class="register-button"><u>Stwórz konto</u></h2>
+            <a href="../register/register.php"><h2 class="register-button"><u>Stwórz konto</u></h2></a>
           </div>
 
         </div>
