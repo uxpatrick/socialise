@@ -59,7 +59,7 @@ input:focus{
   background: #282b39;
   border:1px solid rgba(255, 255, 255, 0.332);
 }
-button{
+.register-button-first{
   border-radius: 46px;
   background: #32A8CD;
   font-family: Outfit;
@@ -68,6 +68,22 @@ button{
   color:white;
   font-size: 20px;
   height: 45px;
+  padding-left: 10px !important;
+  cursor:pointer;
+}
+.invalid-register{
+  color:#F64646 !important;
+  font-family: Reem Kufi Fun;
+  text-align: center;
+  margin-bottom:-30px !important;
+  margin-top:35px !important;
+}
+.correct-register{
+  color:#66E77A !important;
+  font-family: Reem Kufi Fun;
+  text-align: center;
+  margin-bottom:-30px !important;
+  margin-top:35px !important;
 }
 .container-register-buttons{
   display:grid;
