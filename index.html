@@ -142,6 +142,10 @@
         .your-profile-image{
             font-size: 16px;
         }
+        .account-label,.tool-label{
+            border: 1px solid #222431;
+            transition: border-color 0.4s ease; 
+        }
         .account-label p {
             margin-left:18px;
         }
@@ -150,6 +154,16 @@
         }
         ::-webkit-scrollbar{
             display: none;
+        }
+        .account-label:hover,.tool-label:hover{
+            cursor:pointer;
+            background: #222431;
+            border: 1px solid #494c63;
+        }
+        .block-label:hover{
+            cursor:pointer;
+            background: #222431;
+            border: 1px solid rgb(167, 0, 0);
         }
     </style>
     <meta charset="UTF-8">
@@ -217,7 +231,7 @@
                     <div class="account-label" onclick="logoutPopup()">
                         <img src="App\Images\logout.png"><p>Wyloguj mnie</p>
                     </div>
-                    <div class="account-label">
+                    <div class="account-label block-label">
                         <img src="App\Images\delete.png"><p class="block-account">Zablokuj konto</p>
                     </div>
             </div>
