@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800&family=Reem+Kufi+Fun:wght@400;500;600;700&display=swap');
+        body{
+            margin:0;
+            padding:0;
+            background-color: #222431;
+        }
+        .main-container{
+            padding-top: 33px;
+            width: 1440px;
+            height: 90dvh;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 20% 60% 20%;
+        }
+        .container-left{
+            align-items: center;
+            display: flex;
+            flex-direction:column;
+        }
+        /* .container-middle{
+        } */
+        .container-right{
+            align-items: center;
+            display: flex;
+            flex-direction:column;
+            margin-top:50px;
+        }
+        *{
+            margin:0;
+            padding:0;
+            box-sizing: border-box;
+        }
+        .input-label button{
+            border-radius: 50%;
+            background: #32A8CD;
+            border:none;
+            font-size: 15px;
+            aspect-ratio: 1/1;
+            width: 18%;
+            color:white;
+            font-weight: bold;
+        }
+        input{
+            border-radius: 46px;
+            background: #323544;
+            border:none;
+            padding:12px;
+            color:white;
+            width: 80%;
+        }
+        input::placeholder{
+            color:#686C86;
+            font-family: Outfit;
+            font-size:16px;
+        }
+        .friends-container,.tool-container,.profile-container,.account-container{
+            background: #282A37;
+            border-radius: 33px;
+            width:100%;
+            padding:19px;
+        }
+        h2.logout-button-no,h2.logout-button-yes {
+            padding: 8px;
+        }
+        .profile-container{
+            text-align: center;
+        }
+        .account-container{
+            margin-top: 30px;
+        }
+        .profile-container img{
+            margin-top:-80px;
+        }
+        .your-profile-label{
+            background-color: #222431;
+            color:white;
+            padding:21px;
+            border-radius: 26px;
+        }
+        .your-profile-label p {
+            font-family: Outfit;
+        }
+        .your-friend-id {
+            color: #32A8CD;
+            font-weight: bold;
+        }
+        h1{
+            font-family: Reem Kufi Fun;
+            color:white;
+            font-weight:600;
+            font-size:22px;
+            text-align: center; 
+            padding:20px;
+        }
+        .tool-header,.friend-header,.account-header{
+            border-radius: 26px;
+            background: #222431;
+        }
+        .tool-container{
+            margin-top:30px;
+            
+        }
+        .input-label{
+            margin-top: 15px;
+            display:flex;
+            justify-content: space-between;
+            position: relative;
+            
+        }
+        .friend-label{
+            color: #9598A7;
+            font-size: 16px;
+            border-radius: 26px;
+            background: #222431;
+            padding: 11px;
+            margin-top:12px;
+            display: flex;
+            align-items: center;
+            font-family: Outfit;
+        }
+        .tool-label,.account-label{
+            color: #9598A7;
+            font-size: 16px;
+            border-radius: 26px;
+            background: #222431;
+            padding: 11px;
+            margin-top:12px;
+            display: flex;
+            align-items: center;
+            font-family: Outfit;
+        }
+        .friend-label p{
+            margin-left:18px;
+        }
+        .tool-label p{
+            margin-left:18px;
+        }
+        .your-profile-image{
+            font-size: 16px;
+        }
+        .account-label p {
+            margin-left:18px;
+        }
+        .block-account{
+            color:#963737
+        }
+        ::-webkit-scrollbar{
+            display: none;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aktualności</title>
+</head>
+<body>
+    <div class="main-container">
+        <div class="container-left">
+            <div class="friends-container">
+                <div class="friend-header">
+                    <h1>Znajomi</h1>
+                </div>
+                <div class="input-label">
+                    <input type=text placeholder="Podaj ID znajomego"><button>+</button>
+                </div>
+                <div class="friends-search">
+                    <div class="friend-label">
+                        <img src="App\Images\profile-image.png"><p>Jeremy Sohan</p>
+                    </div>
+                    <div class="friend-label">
+                        <img src="App\Images\profile-image.png"><p>Jeremy Sohan</p>
+                    </div>
+                    <div class="friend-label">
+                        <img src="App\Images\profile-image.png"><p>Jeremy Sohan</p>
+                    </div>
+                </div>
+
+                <div class="friends-list">
+
+                </div>
+            </div>
+            <div class="tool-container">
+                <div class="tool-header">
+                    <h1>Narzędzia</h1>
+                </div>
+                    <div class="tool-label">
+                        <img src="App\Images\new-post.png"><p>Nowy post</p>
+                    </div>
+                    <div class="tool-label">
+                        <img src="App\Images\relations.png"><p>Relacje</p>
+                    </div>
+                </div>
+            </div>
+        <div class="container-middle">
+            
+        </div>
+        <div class="container-right">
+            <div class="profile-container">
+                <div class="your-image">
+                    <img src="App\Images\your-image.png">
+                </div>
+                <div class="your-profile-label">
+                    <p class="your-profile-image">Elizabeth Storm</p>
+                    <p class="your-friend-id">#02Sdf</p>
+                </div>
+            </div>
+            <div class="account-container">
+                <div class="account-header">
+                    <h1>Twoje konto</h1>
+                </div>
+                    <div class="account-label">
+                        <img src="App\Images\settings.png"><p>Ustawienia</p>
+                    </div>
+                    <div class="account-label" onclick="logoutPopup()">
+                        <img src="App\Images\logout.png"><p>Wyloguj mnie</p>
+                    </div>
+                    <div class="account-label">
+                        <img src="App\Images\delete.png"><p class="block-account">Zablokuj konto</p>
+                    </div>
+            </div>
+        </div>
+    </div>
+    <script src='App\Logout\Logout.js'></script>
+</body>
+</html>
