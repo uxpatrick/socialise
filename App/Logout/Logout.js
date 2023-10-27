@@ -2,7 +2,7 @@ function changeTopic()
     { 
         let isChecked = false
         const checkbox = document.querySelector("#checkbox-choose-source")
-        const checkbox_wrapper = document.querySelector("#checkbox-choose-wrapper")
+        const checkbox_wrapper = document.querySelector(".choose-paragraph-label")
         const chat_first_option = document.querySelector(".first-option")
         const chat_second_option = document.querySelector(".second-option")
         const checkbox_inside = document.querySelector("#checkbox-choose-inside")
