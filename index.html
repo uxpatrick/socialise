@@ -21,8 +21,9 @@
             display: flex;
             flex-direction:column;
         }
-        /* .container-middle{
-        } */
+        .container-middle{
+            background-color: #963737;
+        }
         .container-right{
             align-items: center;
             display: flex;
@@ -44,7 +45,7 @@
             color:white;
             font-weight: bold;
         }
-        input{
+        .input-friend-id{
             border-radius: 46px;
             background: #323544;
             border:none;
@@ -52,7 +53,7 @@
             color:white;
             width: 80%;
         }
-        input::placeholder{
+        .input-friend-id::placeholder{
             color:#686C86;
             font-family: Outfit;
             font-size:16px;
@@ -165,6 +166,44 @@
             background: #222431;
             border: 1px solid rgb(167, 0, 0);
         }
+        .type-of-chat-header{
+            text-align: left !important;
+            margin:0 !important;
+            padding:0 !important;
+            font-size: 28px;
+        }
+        .choose-paragraph{
+            font-family: Outfit;
+            font-weight: 400;
+            color:white;
+        }
+        #checkbox-choose-wrapper{
+            width: 50px;
+            height: 17px;
+            background: #1B5C71;
+            border-radius: 43px;
+        }
+        #checkbox-choose-inside{
+            background: #32A8CD;
+            border-radius: 43px;
+            width: 60%;
+            height: 100%;
+            transition: .2s all ease-in-out;
+        }
+        .checkbox-active {
+            transform: translateX(70%);
+            background: #7FC2D8 !important;
+        }
+        .first-option{
+            color:#32A8CD;
+        }
+        .main-choose-wrapper{
+            display:flex;
+            align-items: center;
+        }
+        #checkbox-choose-wrapper{
+            margin-left:7px;
+        }
     </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -178,7 +217,7 @@
                     <h1>Znajomi</h1>
                 </div>
                 <div class="input-label">
-                    <input type=text placeholder="Podaj ID znajomego"><button>+</button>
+                    <input class='input-friend-id' type=text placeholder="Podaj ID znajomego"><button>+</button>
                 </div>
                 <div class="friends-search">
                     <div class="friend-label">
@@ -209,7 +248,12 @@
                 </div>
             </div>
         <div class="container-middle">
-            
+            <div class="main-middle-section">
+                <div class="main-choose-wrapper">
+                    <p class="choose-paragraph">Wybierz chat<div id="checkbox-choose-wrapper"><div id="checkbox-choose-inside"></div></div></p>
+                </div>
+                <h1 class="type-of-chat-header"><span class="first-option">Publiczny</span> / <span class="second-option"> tylko znajomi</span></h1>
+            </div>     
         </div>
         <div class="container-right">
             <div class="profile-container">
