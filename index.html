@@ -21,9 +21,9 @@
             display: flex;
             flex-direction:column;
         }
-        .container-middle{
+        /* .container-middle{
             background-color: #963737;
-        }
+        } */
         .container-right{
             align-items: center;
             display: flex;
@@ -204,6 +204,46 @@
         #checkbox-choose-wrapper{
             margin-left:7px;
         }
+        .author-info-wrapper{
+            display:flex;
+            align-items: center;
+        }
+        .author-name{
+            font-size:16px;
+            color:white;
+            font-family: Outfit;
+            font-weight: 600;
+            margin-left:17px;
+        }
+        .post-text-wrapper{
+            max-width: 70%;
+            margin-top:30px;
+        }
+        .post-text-content{
+            color:white;
+            font-weight: 200;
+            font-family:Outfit;
+        }
+        .post-label{
+            border-top:1px solid rgba(255, 255, 255, 0.103);
+            border-bottom:1px solid rgba(255, 255, 255, 0.103);
+            padding:25px 0 45px 0;
+        }
+        .main-middle-section{
+            width: 80%;
+            height: 100%;
+            margin:auto;
+        }
+        .posts-container{
+            margin-top:30px;
+        }
+        .post-text-wrapper {
+            padding: 16px;
+            margin-top: 20px;
+            background: #2E303A;
+            border-radius: 22px;
+            max-width: max-content;
+        }
     </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -247,14 +287,28 @@
                     </div>
                 </div>
             </div>
+
         <div class="container-middle">
             <div class="main-middle-section">
                 <div class="main-choose-wrapper">
                     <label class="choose-paragraph-label"><p class="choose-paragraph">Wybierz chat<div id="checkbox-choose-wrapper"><div id="checkbox-choose-inside"></div></div></p></label>
                 </div>
                 <h1 class="type-of-chat-header"><span class="first-option">Publiczny</span> / <span class="second-option"> tylko znajomi</span></h1>
+                <div class="posts-container">
+
+                    <div class="post-label">
+                        <div class="author-info-wrapper">
+                            <img src="App\Images\profile-image.png" class="author-image-profile"><p class="author-name">Jeremy Sohan</p>
+                        </div>
+                        <div class="post-text-wrapper">
+                            <span class="post-text-content">libero excepturi sit nulla sunt od Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt aliquam debitis facere laudantium dolore quaerat nam iste reiciendis qui repellat, facilis eum veniam quibusdam et nemo eius, culpa vel ipsum.</span>
+                        </div>
+                    </div>
+                    
+                </div>
             </div>     
         </div>
+
         <div class="container-right">
             <div class="profile-container">
                 <div class="your-image">
