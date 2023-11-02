@@ -23,17 +23,17 @@ function changeTopic()
         })
     }
 changeTopic();
-function logoutPopup() {
+function addPostPopup() {
     document.body.style.overflowY='hidden';
     document.body.innerHTML +=`<div class='logout-popup-background' style='color:purple;width:100%;height:100%;background:rgba(0,0,0,0.30);backdrop-filter:blur(11px);position:fixed;top:0;margin:0;padding:0;box-sizing:border-box;display:grid;align-items:center;justify-content:center;'>
     <div class='logout-popup' style='text-align: center;background:#282A37;width:400px;padding:10px;padding-top:40px;padding-bottom:40px;'>
        <div class='logout-popup-header' style='text-align:center;font-family:ReemKufiFun;font-size:16px;font-style:normal;color:white;margin:10px 0px 15px 0px;'>
           <h1 style='text-align:center;font-family: Reem Kufi Fun;font-weight:600 !important;'>Utwórz nowy post</h1>
        </div>
-       <form method=post action=>
-       <textarea name="post-content" style="width:80%;margin:10px;padding:10px;border-radius: 20px;background: #323544;color:white;width:50%;"></textarea>
-       <input name="post-image" type=file style="color:white;">
-       <input type=submit value="Dodaj post" >
+       <form method=post action='./App/Create/AddPost.php' enctype="multipart/form-data">
+       <textarea name="input-post" style="width:80%;margin:10px;padding:10px;border-radius: 20px;background: #323544;color:white;width:50%;"></textarea>
+       <input class="form-control" type="file" name="uploadfile" value="" />
+       <input type=submit name='input-post-submit' value="Dodaj post" >
        </form>
     </div>
  </div>`

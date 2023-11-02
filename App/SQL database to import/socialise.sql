@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Lis 02, 2023 at 08:23 AM
+-- Generation Time: Lis 02, 2023 at 10:22 AM
 -- Wersja serwera: 10.4.28-MariaDB
 -- Wersja PHP: 8.2.4
 
@@ -32,44 +32,18 @@ CREATE TABLE `posts` (
   `content` varchar(255) DEFAULT NULL,
   `comments` varchar(255) DEFAULT NULL,
   `author` varchar(255) DEFAULT NULL,
-  `createdAt` date NOT NULL
+  `createdAt` varchar(255) NOT NULL,
+  `attachments` blob DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `posts`
 --
 
-INSERT INTO `posts` (`id`, `content`, `comments`, `author`, `createdAt`) VALUES
-(1, 'Testowy', NULL, NULL, '2023-10-30'),
-(2, 'Testowy', NULL, '2', '2023-10-30'),
-(3, 'Testowy', NULL, 'Kuba', '2023-10-30'),
-(4, 'teSTOWY dla patrkyka', NULL, 'patryk', '2023-10-30'),
-(5, 'POSCIAK', NULL, 'Niskorosły', '2023-10-30'),
-(6, 'POSCIAK', NULL, 'Niskorosły', '2023-10-30'),
-(7, '', NULL, 'Sigma', '2023-10-30'),
-(8, 'sdadas', NULL, 'Sigma', '2023-10-30'),
-(9, 'prawie działa', NULL, 'Sigma', '2023-10-30'),
-(10, 'asdasdas', NULL, 'Sigma', '2023-10-30'),
-(11, 'asdasdas', NULL, 'Sigma', '2023-10-30'),
-(12, 'zlom', NULL, 'Sigma', '2023-10-30'),
-(13, 'zlom', NULL, 'Sigma', '2023-10-30'),
-(14, 'zlom', NULL, 'Sigma', '2023-10-30'),
-(15, 'zlom', NULL, 'Sigma', '2023-10-30'),
-(16, 'zlom', NULL, 'Sigma', '2023-10-30'),
-(17, 'zlom', NULL, 'Sigma', '2023-10-30'),
-(18, 'zlom', NULL, 'Sigma', '2023-10-30'),
-(19, 'zlom', NULL, 'Sigma', '2023-10-30'),
-(20, 'zlom', NULL, 'Sigma', '2023-10-30'),
-(21, 'zlom', NULL, 'Sigma', '2023-10-30'),
-(22, ' Lorem ipsum lorem sdaskdjaskdjLorem ipsum lorem sdaskdjaskdjLorem ipsum lorem sdaskdjaskdjLorem ipsum lorem sdaskdjaskdjLorem ipsum lorem sdaskdjaskdjLorem ipsum lorem sdaskdjaskdjLorem ipsum lorem sdaskdjaskdjLorem ipsum lorem sdaskdjaskdjLorem ipsum lo', NULL, 'Sigma', '2023-10-30'),
-(23, 'Hej! Witam Was! :D', NULL, 'Sigma', '2023-10-30'),
-(24, '', NULL, 'Sigma', '2023-11-02'),
-(25, '', NULL, 'Sigma', '2023-11-02'),
-(26, '', NULL, 'Sigma', '2023-11-02'),
-(27, '', NULL, 'Sigma', '2023-11-02'),
-(28, 'dsadsa', NULL, 'Sigma', '2023-11-02'),
-(29, 'nowy poscik', NULL, 'Sigma', '2023-11-02'),
-(30, '', NULL, 'Sigma', '2023-11-02');
+INSERT INTO `posts` (`id`, `content`, `comments`, `author`, `createdAt`, `attachments`) VALUES
+(1, 'Test z głównej', NULL, 'Sigma', '2023-11-02 10:20:45', ''),
+(2, 'Komentarz z popup bez zdjęcia', NULL, 'Sigma', '2023-11-02 10:21:08', ''),
+(3, 'Komentarz z popup ze zdjeciem', NULL, 'Sigma', '2023-11-02 10:21:21', 0x3336305f465f39323533353636345f497646735165486a427a6645367344345648644f3875354f48555363367948462e6a7067);
 
 -- --------------------------------------------------------
 
@@ -119,7 +93,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `users`

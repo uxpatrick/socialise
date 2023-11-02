@@ -1,6 +1,6 @@
 <?php
 session_start();
-if(!isset($_SESSION['logged'])){
+if (!isset($_SESSION['logged'])) {
     header('Location: ../Login/login.php');
     exit();
 }
@@ -443,7 +443,7 @@ if(!isset($_SESSION['logged'])){
                 <div class="tool-header">
                     <h1>Narzędzia</h1>
                 </div>
-                <div class="tool-label">
+                <div class="tool-label" onClick='addPostPopup()'>
                     <img src="App\Images\new-post.png">
                     <p>Nowy post</p>
                 </div>
@@ -486,24 +486,8 @@ if(!isset($_SESSION['logged'])){
                         die("Connection failed: " . $conn->connect_error);
                     }
 
-
-
                     $sql = "SELECT * FROM posts ORDER BY createdAt DESC";
 
-                    if (!empty($_POST["input-post-submit"])) {
-                        $filename = $_FILES["uploadfile"]["name"];
-                        $tempname = $_FILES["uploadfile"]["tmp_name"];
-                        $folder = "./uploaded_images/" . $filename;
-
-                        $input_post = $_POST['input-post'];
-                        $current_user_id = $_SESSION['user_id'];
-
-                        $insert_post_sql = 'INSERT INTO posts (content, comments, author, createdAt, attachments) VALUES ("' . $input_post . '", NULL, (SELECT login FROM users WHERE id = ' . $current_user_id . '), "' . date("Y-m-d H:i:s") . '", "' . $filename . '");';
-
-                        $conn->query($insert_post_sql);
-
-                        move_uploaded_file($tempname, $folder);
-                    }
                     $result = $conn->query($sql);
                     while ($row = $result->fetch_assoc()) {
                         echo '<div class="post-label">
@@ -514,9 +498,15 @@ if(!isset($_SESSION['logged'])){
                                             <div class="post-text-wrapper">
                                                 <span class="post-text-content">' . $row['content'] . '</span>
                                             </div>
-                                            <div class="post-text-wrapper post-image">
+                                            ';
+
+                        if ($row['attachments'] != null) {
+                            echo ' <div class="post-text-wrapper post-image">
                                                 <img src="./uploaded_images/' . $row["attachments"] . '">
-                                            </div>
+                                            </div>';
+                        }
+                        ;
+                        echo '
                                             <div class="reactions-wrapper">
                                                 <label>
                                                     <span class="reactions-comment"><img src="App\Images\chat-icon.png">Napisz
@@ -535,12 +525,9 @@ if(!isset($_SESSION['logged'])){
 
                 </div>
                 <div class="add-post-wrapper">
-                    <form method='POST' action='index.php' enctype="multipart/form-data">
+                    <form method='POST' action='App/Create/AddPost.php' enctype="multipart/form-data">
                         <input type="text" placeholder="Wprowadź tekst" class="input-post" name='input-post'><input
                             type='submit' class="add-post-button" value='Dodaj wpis' name='input-post-submit'>
-                        <div class="form-group">
-                            <input class="form-control" type="file" name="uploadfile" value="" />
-                        </div>
                     </form>
                 </div>
             </div>
@@ -575,6 +562,7 @@ if(!isset($_SESSION['logged'])){
         </div>
     </div>
     <script src='App\Logout\Logout.js'></script>
+    <script src='App\Create\addPost.js'></script>
 </body>
 
 </html>
