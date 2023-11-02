@@ -385,6 +385,21 @@ session_start();
         .reactions-wrapper {
             margin-top: 20px;
         }
+
+        .post-image {
+            background-color: transparent;
+            padding: 0;
+            object-fit: cover;
+            object-position: center;
+            width: 500px;
+            height: auto;
+        }
+
+        .post-image img {
+            border-radius: 22px;
+            width: 100%;
+            height: 100%;
+        }
     </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -468,48 +483,60 @@ session_start();
                     }
 
 
-                    // if (isset($_POST['input-post'])) {
-                    $input_post = $_POST['input-post'];
-                    $current_user_id = $_SESSION['user_id'];
 
-                    $insert_post_sql = 'INSERT INTO posts (content, comments, author, createdAt) VALUES ("' . $input_post . '", NULL, (SELECT login FROM users WHERE id = ' . $current_user_id . '), NOW());';
+                    $sql = "SELECT * FROM posts ORDER BY createdAt DESC";
 
-                    $conn->query($insert_post_sql);
+                    if (!empty($_POST["input-post-submit"])) {
+                        $filename = $_FILES["uploadfile"]["name"];
+                        $tempname = $_FILES["uploadfile"]["tmp_name"];
+                        $folder = "./uploaded_images/" . $filename;
 
-                    $sql = "SELECT * FROM posts ORDER BY id DESC";
+                        $input_post = $_POST['input-post'];
+                        $current_user_id = $_SESSION['user_id'];
 
+                        $insert_post_sql = 'INSERT INTO posts (content, comments, author, createdAt, attachments) VALUES ("' . $input_post . '", NULL, (SELECT login FROM users WHERE id = ' . $current_user_id . '), "' . date("Y-m-d H:i:s") . '", "' . $filename . '");';
+
+                        $conn->query($insert_post_sql);
+
+                        move_uploaded_file($tempname, $folder);
+                    }
                     $result = $conn->query($sql);
                     while ($row = $result->fetch_assoc()) {
                         echo '<div class="post-label">
-                        <div class="author-info-wrapper">
-                            <img src="App\Images\profile-image.png" class="author-image-profile">
-                            <p class="author-name">' . $row['author'] . '</p>
-                        </div>
-                        <div class="post-text-wrapper">
-                            <span class="post-text-content">' . $row['content'] . '</span>
-                        </div>
-                        <div class="reactions-wrapper">
-                            <label>
-                                <span class="reactions-comment"><img src="App\Images\chat-icon.png">Napisz
-                                    komentarz</span>
-                            </label>
-                            <label>
-                                <span class="reactions-add-friend"><img src="App\Images\add-friend.png">Zaproś do
-                                    znajomych</span>
-                            </label>
-                        </div>
-                    </div>';
+                                            <div class="author-info-wrapper">
+                                                <img src="App\Images\profile-image.png" class="author-image-profile">
+                                                <p class="author-name">' . $row['author'] . '</p>
+                                            </div>
+                                            <div class="post-text-wrapper">
+                                                <span class="post-text-content">' . $row['content'] . '</span>
+                                            </div>
+                                            <div class="post-text-wrapper post-image">
+                                                <img src="./uploaded_images/' . $row["attachments"] . '">
+                                            </div>
+                                            <div class="reactions-wrapper">
+                                                <label>
+                                                    <span class="reactions-comment"><img src="App\Images\chat-icon.png">Napisz
+                                                        komentarz</span>
+                                                </label>
+                                                <label>
+                                                    <span class="reactions-add-friend"><img src="App\Images\add-friend.png">Zaproś do
+                                                        znajomych</span>
+                                                </label>
+                                            </div>
+                                        </div>';
                     }
-                    // }
+                    $conn->close();
                     ?>
 
 
                 </div>
-
                 <div class="add-post-wrapper">
-                    <form method='POST' action='index.php'>
+                    <form method='POST' action='index.php' enctype="multipart/form-data">
                         <input type="text" placeholder="Wprowadź tekst" class="input-post" name='input-post'><input
-                            type='submit' class="add-post-button" value='Dodaj wpis'>
+                            type='submit' class="add-post-button" value='Dodaj wpis' name='input-post-submit'>
+                        <div class="form-group">
+                            <input class="form-control" type="file" name="uploadfile" value="" />
+                        </div>
                     </form>
                 </div>
             </div>
