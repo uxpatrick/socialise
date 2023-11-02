@@ -2,7 +2,7 @@
 session_start();
 
 if (isset($_SESSION['logged'])) {
-  header('Location: ../index.php');
+  header('Location: ../../index.php');
   exit();
 }
 
@@ -17,7 +17,7 @@ if (isset($_POST['mail']) && isset($_POST['password'])) {
   while ($row = $result->fetch_assoc()) {
     $_SESSION['logged'] = True;
     $_SESSION['user_id'] = $row['id'];
-    header('Location: ../index.php');
+    header('Location: ../../index.php');
   }
 
   if (!isset($_SESSION['logged'])) {
