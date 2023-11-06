@@ -418,21 +418,39 @@ if (!isset($_SESSION['logged'])) {
                     <h1>Znajomi</h1>
                 </div>
                 <div class="input-label">
-                    <input class='input-friend-id' type=text placeholder="Podaj ID znajomego"><button>+</button>
+                    <form method='POST' action='App/Create/AddFriend.php'>
+                        <input class='input-friend-id' type=text placeholder="Podaj ID znajomego"
+                            name='add_friend'><input type='submit' name='add_friend_submit'>+</input>
                 </div>
                 <div class="friends-search">
-                    <div class="friend-label">
-                        <img src="App\Images\profile-image.png">
-                        <p>Jeremy Sohan</p>
-                    </div>
-                    <div class="friend-label">
-                        <img src="App\Images\profile-image.png">
-                        <p>Jeremy Sohan</p>
-                    </div>
-                    <div class="friend-label">
-                        <img src="App\Images\profile-image.png">
-                        <p>Jeremy Sohan</p>
-                    </div>
+                    <?php
+                    $servername = "localhost";
+                    $database = "socialise";
+                    $username = "root";
+                    $password = "";
+
+                    $conn = mysqli_connect($servername, $username, $password, $database);
+
+                    if ($conn->connect_error) {
+                        die("Connection failed: " . $conn->connect_error);
+                    }
+
+                    $result = $conn->query('SELECT connected_to FROM friends WHERE user_id=' . $_SESSION["user_id"] . '');
+
+                    while ($row = mysqli_fetch_array($result)) {
+                        $sql_friend = 'SELECT * FROM users WHERE id=' . $row['connected_to'] . '';
+
+                        $result_friend = $conn->query($sql_friend);
+
+                        while ($row_friend = mysqli_fetch_assoc($result_friend)) {
+                            echo '                    <div class="friend-label">
+                            <img src="App\Images\profile-image.png">
+                            <p>' . $row_friend['login'] . '</p>
+                        </div>';
+                        }
+                    }
+
+                    ?>
                 </div>
 
                 <div class="friends-list">
@@ -446,10 +464,6 @@ if (!isset($_SESSION['logged'])) {
                 <div class="tool-label" onClick='addPostPopup()'>
                     <img src="App\Images\new-post.png">
                     <p>Nowy post</p>
-                </div>
-                <div class="tool-label">
-                    <img src="App\Images\relations.png">
-                    <p>Relacje</p>
                 </div>
             </div>
         </div>
@@ -470,22 +484,6 @@ if (!isset($_SESSION['logged'])) {
                         class="second-option"> tylko znajomi</span></h1>
                 <div class="posts-container">
                     <?php
-                    //INSERT INTO posts (content, comments, author, createdAt) VALUES ({content}, NULL, (SELECT login FROM users WHERE id = {id}), NOW());$servername = "localhost";
-                    $servername = "localhost";
-                    $database = "socialise";
-                    $username = "root";
-                    $password = "";
-
-                    // Create connection
-                    
-                    $conn = mysqli_connect($servername, $username, $password, $database);
-
-                    // Check connection
-                    
-                    if ($conn->connect_error) {
-                        die("Connection failed: " . $conn->connect_error);
-                    }
-
                     $sql = "SELECT * FROM posts ORDER BY createdAt DESC";
 
                     $result = $conn->query($sql);
@@ -519,7 +517,6 @@ if (!isset($_SESSION['logged'])) {
                                             </div>
                                         </div>';
                     }
-                    $conn->close();
                     ?>
 
 
@@ -538,8 +535,19 @@ if (!isset($_SESSION['logged'])) {
                     <img src="App\Images\your-image.png">
                 </div>
                 <div class="your-profile-label">
-                    <p class="your-profile-image">Elizabeth Storm</p>
-                    <p class="your-friend-id">#02Sdf</p>
+                    <p class="your-profile-image">
+                        <?php
+                        $result = $conn->query("SELECT * FROM users WHERE id=" . $_SESSION['user_id'] . "");
+                        while ($row = $result->fetch_assoc()) {
+                            echo '
+                            <p class="your-profile-image">
+                            ' . $row["login"] . '
+                            </p>
+                            <p class="your-friend-id">' . $row['friend_id'] . '</p>
+                            ';
+                        }
+                        $conn->close();
+                        ?>
                 </div>
             </div>
             <div class="account-container">

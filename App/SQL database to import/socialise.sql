@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Lis 02, 2023 at 10:22 AM
+-- Generation Time: Lis 06, 2023 at 05:02 PM
 -- Wersja serwera: 10.4.28-MariaDB
 -- Wersja PHP: 8.2.4
 
@@ -20,6 +20,29 @@ SET time_zone = "+00:00";
 --
 -- Database: `socialise`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `friends`
+--
+
+CREATE TABLE `friends` (
+  `id` int(11) NOT NULL,
+  `user_id` varchar(255) NOT NULL,
+  `connected_to` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `friends`
+--
+
+INSERT INTO `friends` (`id`, `user_id`, `connected_to`) VALUES
+(2, '8', '1'),
+(3, '8', '7'),
+(4, '8', '2'),
+(5, '7', '2'),
+(6, '9', '9');
 
 -- --------------------------------------------------------
 
@@ -65,13 +88,21 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `login`, `mail`, `password`, `friend_id`, `friends`) VALUES
-(1, 'patryk', 'patryk@gmail.com', '1070707797e58d10232ea970bf950843', '1XbhA', '0'),
-(2, 'Kuba', 'kuba@gmail.com', '1070707797e58d10232ea970bf950843', '2uYhA', ''),
-(7, 'Sigma', 'sigma@gmail.com', 'e773536932c61c7ee11944cefde49e30', '3EuCR', '');
+(1, 'patryk', 'patryk@gmail.com', '1070707797e58d10232ea970bf950843', '#1XbhA', '0'),
+(2, 'Kuba', 'kuba@gmail.com', '1070707797e58d10232ea970bf950843', '#2uYhA', ''),
+(7, 'Sigma', 'sigma@gmail.com', 'e773536932c61c7ee11944cefde49e30', '#3EuCR', ''),
+(8, 'buki', 'buki@gmail.com', '9c9e8429c30861ee8d7266b454085635', '#8ugsF', ''),
+(9, 'malpka', 'gorilla@gmail.com', '8621e77d22f0830a46b462e3f46ed917', '#9KAfg', '');
 
 --
 -- Indeksy dla zrzutów tabel
 --
+
+--
+-- Indeksy dla tabeli `friends`
+--
+ALTER TABLE `friends`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indeksy dla tabeli `posts`
@@ -90,6 +121,12 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `friends`
+--
+ALTER TABLE `friends`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
@@ -99,7 +136,7 @@ ALTER TABLE `posts`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
