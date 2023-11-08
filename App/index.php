@@ -19,4 +19,6 @@ if(!isset($_SESSION['logged'])){
 </body>
 <script src='Logout/Logout.js'></script>
 </html>
-
+<?php
+header('Location: ../friends.php');
+?>

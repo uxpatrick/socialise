@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['logged'])) {
-    header('Location: App/login/login.php');
+    header('Location: App//login/login.php');
     exit();
 }
 ?>
@@ -404,6 +404,10 @@ if (!isset($_SESSION['logged'])) {
             width: 100%;
             height: 100%;
         }
+
+        div#checkbox-choose-wrapper {
+            transform: rotate(180deg);
+        }
     </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -420,7 +424,8 @@ if (!isset($_SESSION['logged'])) {
                 <div class="input-label">
                     <form method='POST' action='App/Create/AddFriend.php'>
                         <input class='input-friend-id' type=text placeholder="Podaj ID znajomego"
-                            name='add_friend'><input type='submit' name='add_friend_submit'>+</input></form>
+                            name='add_friend'><input type='submit' name='add_friend_submit'>+</input>
+                            <input type="hidden" name="typeOfPost" value="private"></form>
                 </div>
                 <div class="friends-search">
                     <?php
@@ -480,52 +485,76 @@ if (!isset($_SESSION['logged'])) {
                         </p>
                     </label>
                 </div>
-                <h1 class="type-of-chat-header"><span class="first-option">Publiczny</span> / <span
-                        class="second-option"> tylko znajomi</span></h1>
+                <h1 class="type-of-chat-header"><span class="second-option">Publiczny</span> / <span
+                        class="first-option"> tylko znajomi</span></h1>
                 <div class="posts-container">
                     <?php
-                    $sql = "SELECT * FROM posts where status='public' ORDER BY createdAt DESC";
+                        $sql = 'SELECT * FROM posts WHERE status="private" ORDER BY createdAt DESC';
+
+                        $result_friend = $conn->query($sql);
+
+                        
+                        while ($row = $result_friend->fetch_assoc()) {
+                            $author_id = $row['author_id'];
+                            $author = $row['author'];
+                            $content = $row['content'];
+                            $attachments = $row['attachments'];
+
+                            $result = $conn->query('SELECT * FROM friends');
+                            while ($row = mysqli_fetch_array($result)){
+                                if($_SESSION['user_id']==$row['user_id'] && $row['connected_to']==$author_id)
+                                {
+                                            
+                                    echo '<div class="post-label">
+                                    <div class="author-info-wrapper">
+                                        <img src="App\Images\profile-image.png" class="author-image-profile">
+                                        <p class="author-name">' . $author . '</p>
+                                    </div>
+                                    <div class="post-text-wrapper">
+                                        <span class="post-text-content">' . $content . '</span>
+                                    </div>
+                                    ';
+
+                                    if ($attachments != null) {
+                                        echo ' <div class="post-text-wrapper post-image">
+                                                            <img src="./uploaded_images/' . $attachments . '">
+                                                        </div>';
+                                    }
+                                    ;
+                                    echo '
+                                    <div class="reactions-wrapper">
+                                        <label>
+                                            <span class="reactions-comment"><img src="App\Images\chat-icon.png">Napisz
+                                                komentarz</span>
+                                        </label>
+                                        <label>
+                                            <span class="reactions-add-friend"><img src="App\Images\add-friend.png">Zaproś do
+                                                znajomych</span>
+                                        </label>
+                                    </div>
+                                </div>';
+                                    }
+                                }
+                            }
+                            
+
+
+                        
+                    
+                    
+                    
+                    $sql = "SELECT * FROM posts ORDER BY createdAt DESC";
 
                     $result = $conn->query($sql);
-                    while ($row = $result->fetch_assoc()) {
-                        echo '<div class="post-label">
-                                            <div class="author-info-wrapper">
-                                                <img src="App\Images\profile-image.png" class="author-image-profile">
-                                                <p class="author-name">' . $row['author'] . '</p>
-                                            </div>
-                                            <div class="post-text-wrapper">
-                                                <span class="post-text-content">' . $row['content'] . '</span>
-                                            </div>
-                                            ';
 
-                        if ($row['attachments'] != null) {
-                            echo ' <div class="post-text-wrapper post-image">
-                                                <img src="./uploaded_images/' . $row["attachments"] . '">
-                                            </div>';
-                        }
-                        ;
-                        echo '
-                                            <div class="reactions-wrapper">
-                                                <label>
-                                                    <span class="reactions-comment"><img src="App\Images\chat-icon.png">Napisz
-                                                        komentarz</span>
-                                                </label>
-                                                <label>
-                                                    <span class="reactions-add-friend"><img src="App\Images\add-friend.png">Zaproś do
-                                                        znajomych</span>
-                                                </label>
-                                            </div>
-                                        </div>';
-                    }
                     ?>
 
 
                 </div>
                 <div class="add-post-wrapper">
-                    <form method='POST' action='./App/Create/AddPost.php' id="form2">
-                        <input type="text" placeholder="Wprowadź tekst" class="input-post" name='input-post'>
-                        <input type='submit' class="add-post-button" value='Dodaj wpis' name='input-post-submit'>
-                        <input type="hidden" name="typeOfPost" value="public">
+                    <form method='POST' action='App/Create/AddPost.php' enctype="multipart/form-data">
+                        <input type="text" placeholder="Wprowadź tekst" class="input-post" name='input-post'><input
+                            type='submit' class="add-post-button" value='Dodaj wpis' name='input-post-submit'><input type="hidden" name="typeOfPost" value="private">
                     </form>
                 </div>
             </div>
@@ -590,7 +619,7 @@ if (!isset($_SESSION['logged'])) {
                     document.querySelector('.posts-container').innerHTML='<h1>Wczytywanie..</h1>'
                     window.setTimeout(function(){
 
-                        window.location.href = 'friends.php';
+                        window.location.href = 'index.php';
 
                     }, 1000);
 
@@ -615,7 +644,7 @@ if (!isset($_SESSION['logged'])) {
         <form method=post action='./App/Create/AddPost.php' enctype="multipart/form-data">
         <textarea name="input-post" style="width:80%;margin:10px;padding:10px;border-radius: 20px;background: #323544;color:white;width:50%;"></textarea>
         <input class="form-control" type="file" name="uploadfile" value="" />
-        <input type="hidden" name="typeOfPost" value="public">
+        <input type="hidden" name="typeOfPost" value="private">
         <input type=submit name='input-post-submit' value="Dodaj post" >
         </form>
         </div>
