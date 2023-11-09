@@ -465,7 +465,18 @@ if (!isset($_SESSION['logged'])) {
         .custom-file-input:active::before {
         background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9); 
         }
-
+        .add-friend-plus{
+            background: #32A8CD;
+            outline: none;
+            color: white;
+            font-family: Outfit;
+            font-size: 16px;
+            border: none;
+            padding:7px;
+            width:37px;
+            margin-left:5px;
+            border-radius:32px;
+        }
 
     </style>
     <meta charset="UTF-8">
@@ -483,7 +494,7 @@ if (!isset($_SESSION['logged'])) {
                 <div class="input-label">
                     <form method='POST' action='App/Create/AddFriend.php'>
                         <input class='input-friend-id' type=text placeholder="Podaj ID znajomego"
-                            name='add_friend'><input type='submit' name='add_friend_submit'>+</input></form>
+                            name='add_friend'><input type='submit' name='add_friend_submit' class="add-friend-plus" value="+"></form>
                 </div>
                 <div class="friends-search">
                     <?php
@@ -618,7 +629,7 @@ if (!isset($_SESSION['logged'])) {
                 <div class="account-header">
                     <h1>Twoje konto</h1>
                 </div>
-                <div class="account-label">
+                <div class="account-label" onclick="changeName()">
                     <img src="App\Images\settings.png">
                     <p>Ustawienia</p>
                 </div>
