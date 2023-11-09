@@ -657,7 +657,7 @@ if (!isset($_SESSION['logged'])) {
                 <div class="account-header">
                     <h1>Twoje konto</h1>
                 </div>
-                <div class="account-label">
+                <div class="account-label" onclick="changeName()">
                     <img src="App\Images\settings.png">
                     <p>Ustawienia</p>
                 </div>

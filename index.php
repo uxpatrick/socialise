@@ -489,7 +489,8 @@ if (!isset($_SESSION['logged'])) {
                 <div class="input-label">
                     <form method='POST' action='App/Create/AddFriend.php'>
                         <input class='input-friend-id' type=text placeholder="Podaj ID znajomego"
-                            name='add_friend'><input type='submit' name='add_friend_submit'>+</input>
+                            name='add_friend'><input type='submit' name='add_friend_submit' class="add-friend-plus"
+                            value="+">
                     </form>
                 </div>
                 <div class="friends-search">
@@ -652,7 +653,7 @@ if (!isset($_SESSION['logged'])) {
                 <div class="account-header">
                     <h1>Twoje konto</h1>
                 </div>
-                <div class="account-label">
+                <div class="account-label" onclick="changeName()">
                     <img src="App\Images\settings.png">
                     <p>Ustawienia</p>
                 </div>
