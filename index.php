@@ -380,7 +380,7 @@ if (!isset($_SESSION['logged'])) {
             font-size: 16px;
             border: none;
             padding: 10px 25px 10px 25px;
-            width: 20%;
+            min-width: 20%;
             margin-left: 13px;
         }
 
@@ -558,6 +558,9 @@ if (!isset($_SESSION['logged'])) {
                         class="second-option"> tylko znajomi</span></h1>
                 <div class="posts-container">
                     <?php
+
+                    $comment_limit = 5;
+
                     $sql = "SELECT * FROM posts where status='public' ORDER BY createdAt DESC";
 
                     $result = $conn->query($sql);
@@ -583,16 +586,43 @@ if (!isset($_SESSION['logged'])) {
                                                 <label>
                                                     <span class="reactions-comment"><img src="App\Images\chat-icon.png">Napisz
                                                         komentarz</span>
-                                                </label>
-                                                <label>
-                                                    <span class="reactions-add-friend"><img src="App\Images\add-friend.png">Zaproś do
+                                                        </label>
+                                                        <label>
+                                                        <span class="reactions-add-friend"><img src="App\Images\add-friend.png">Zaproś do
                                                         znajomych</span>
-                                                </label>
-                                            </div>
-                                        </div>';
+                                                        </label>
+                                                        </div>
+                                                        <form method="POST" action="App/Create/AddComment.php" id="form240">
+                                                        <input type="text" name="comment_input_post_id" value="' . $row['id'] . '" style="display: none;">
+                                                        <input type="text" name="comment_input" placeholder="Wprowadź tekst" class="input-post" style="margin: 20px 0px; width: 50%;">
+                                                            <input type="submit"  class="add-post-button" style="margin: 0px;" value="Dodaj komentarz" name="comment_input_submit">
+                                                        </form>
+                                        ';
+                        $comment_result = $conn->query('SELECT * FROM comments WHERE post_id = "' . $row['id'] . '" ORDER BY createdAt DESC LIMIT 3');
+
+                        while ($comment_row = $comment_result->fetch_assoc()) {
+                            $res = $conn->query('SELECT * FROM users WHERE id = ' . $comment_row['author_id'] . '');
+                            if ($comment_row['id'] != null) {
+                                while ($row_comment = mysqli_fetch_assoc($res)) {
+
+                                    echo '
+                                <div class="author-info-wrapper" style="margin-top: 20px;">
+                                <img src="App\Images\profile-image.png" class="author-image-profile">
+                                <p class="author-name">' .
+                                        $row_comment['login']
+                                        . '</p>
+                                                </div>
+                                                ';
+                                }
+                                echo ' <div class="post-text-wrapper">
+                            <span class="post-text-content">' . $comment_row['content'] . '</span>
+                            </div>';
+                            }
+                        }
+
+                        echo '</div>';
                     }
                     ?>
-
 
                 </div>
                 <div class="add-post-wrapper">
@@ -646,8 +676,7 @@ if (!isset($_SESSION['logged'])) {
     </div>
     <script src='App\Logout\Logout.js'></script>
     <script>
-    function changeTopic()
-        { 
+        function changeTopic() {
             let isChecked = false
             const checkbox = document.querySelector("#checkbox-choose-source")
             const checkbox_wrapper = document.querySelector(".choose-paragraph-label")
@@ -655,14 +684,14 @@ if (!isset($_SESSION['logged'])) {
             const chat_second_option = document.querySelector(".second-option")
             const checkbox_inside = document.querySelector("#checkbox-choose-inside")
             checkbox_wrapper.addEventListener('click', () => {
-                if(!isChecked){
+                if (!isChecked) {
                     checkbox_inside.classList.add('checkbox-active')
                     chat_second_option.style.color = "#32A8CD"
                     chat_second_option.style.transition = "0.2s"
                     chat_first_option.style.color = "white"
                     isChecked = true
-                    document.querySelector('.posts-container').innerHTML='<h1>Wczytywanie..</h1>'
-                    window.setTimeout(function(){
+                    document.querySelector('.posts-container').innerHTML = '<h1>Wczytywanie..</h1>'
+                    window.setTimeout(function () {
 
                         window.location.href = 'friends.php';
 
@@ -677,11 +706,10 @@ if (!isset($_SESSION['logged'])) {
                 }
             })
         }
-    changeTopic();
-    function addPostPopup() 
-    {
-        document.body.style.overflowY='hidden';
-        document.body.innerHTML +=`<div class='logout-popup-background' style='color:purple;width:100%;height:100%;background:rgba(0,0,0,0.30);backdrop-filter:blur(11px);position:fixed;top:0;margin:0;padding:0;box-sizing:border-box;display:grid;align-items:center;justify-content:center;'>
+        changeTopic();
+        function addPostPopup() {
+            document.body.style.overflowY = 'hidden';
+            document.body.innerHTML += `<div class='logout-popup-background' style='color:purple;width:100%;height:100%;background:rgba(0,0,0,0.30);backdrop-filter:blur(11px);position:fixed;top:0;margin:0;padding:0;box-sizing:border-box;display:grid;align-items:center;justify-content:center;'>
         <div class='logout-popup' style='text-align: center;background:#282A37;width:400px;padding:10px;padding-top:40px;padding-bottom:40px;'>
         <div class='logout-popup-header' style='text-align:center;font-family:ReemKufiFun;font-size:16px;font-style:normal;color:white;margin:10px 0px 15px 0px;'>
             <h1 style='text-align:center;font-family: Reem Kufi Fun;font-weight:600 !important;'>Utwórz nowy post</h1>
@@ -694,14 +722,14 @@ if (!isset($_SESSION['logged'])) {
         </form>
         </div>
     </div>`
-        popUp = document.querySelector('.logout-popup-background')
-        window.addEventListener('click',(e)=>{e.target.style.color=='purple' && closePopup() && changeTopic()})
-    }
-    function closePopup() {
-        document.body.style.overflowY='scroll';
-        popUp.remove(); 
-        changeTopic();
-    }
+            popUp = document.querySelector('.logout-popup-background')
+            window.addEventListener('click', (e) => { e.target.style.color == 'purple' && closePopup() && changeTopic() })
+        }
+        function closePopup() {
+            document.body.style.overflowY = 'scroll';
+            popUp.remove();
+            changeTopic();
+        }
     </script>
 </body>
 
