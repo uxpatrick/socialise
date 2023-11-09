@@ -473,6 +473,19 @@ if (!isset($_SESSION['logged'])) {
         .custom-file-input:active::before {
             background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
         }
+
+        .add-friend-plus {
+            background: #32A8CD;
+            outline: none;
+            color: white;
+            font-family: Outfit;
+            font-size: 16px;
+            border: none;
+            padding: 7px;
+            width: 37px;
+            margin-left: 5px;
+            border-radius: 32px;
+        }
     </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
