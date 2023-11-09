@@ -319,14 +319,6 @@ if (!isset($_SESSION['logged'])) {
             border-top: 1px solid rgba(255, 255, 255, 0.103);
             border-bottom: 1px solid rgba(255, 255, 255, 0.103);
             padding: 25px 0 35px 0;
-            transition: .2s all ease-in-out;
-        }
-
-        .post-label:hover {
-            background: #2E303A;
-            border-radius: 50px;
-            border: 0;
-            padding: 20px;
         }
 
         .main-middle-section {
@@ -338,7 +330,7 @@ if (!isset($_SESSION['logged'])) {
 
         .posts-container {
             margin-top: 30px;
-            max-height: 600px;
+            max-height: 100dvh;
             overflow-y: auto;
         }
 
@@ -378,6 +370,7 @@ if (!isset($_SESSION['logged'])) {
             width: 75%;
             margin-left: 10px;
         }
+
 
         .add-post-button {
             border-radius: 46px;
@@ -536,7 +529,7 @@ if (!isset($_SESSION['logged'])) {
 
                         while ($row_friend = mysqli_fetch_assoc($result_friend)) {
                             echo '                    <div class="friend-label">
-                            <img src="App\Images\profile-image.png">
+                            <img src="..\Images\profile-image.png">
                             <p>' . $row_friend['login'] . '</p>
                         </div>';
                         }
@@ -554,7 +547,7 @@ if (!isset($_SESSION['logged'])) {
                     <h1>Narzędzia</h1>
                 </div>
                 <div class="tool-label" onClick='addPostPopup()'>
-                    <img src="App\Images\new-post.png">
+                    <img src="..\Images\new-post.png">
                     <p>Nowy post</p>
                 </div>
             </div>
@@ -576,13 +569,13 @@ if (!isset($_SESSION['logged'])) {
                         class="second-option"> tylko znajomi</span></h1>
                 <div class="posts-container">
                     <?php
-                    $sql = "SELECT * FROM posts where status='public' ORDER BY createdAt DESC";
+                    $sql = 'SELECT * FROM posts where status="public" and id=' . $_GET['postId'] . ' ORDER BY createdAt DESC';
 
                     $result = $conn->query($sql);
                     while ($row = $result->fetch_assoc()) {
-                        echo '<div class="post-label" href="./App/PostDisplay/PostDisplay.php?postId=' . $row['id'] . '" onclick="redirect(' . $row['id'] . ')">
+                        echo '<div class="post-label">
                                             <div class="author-info-wrapper">
-                                                <img src="App\Images\profile-image.png" class="author-image-profile">
+                                                <img src="..\Images\profile-image.png" class="author-image-profile">
                                                 <p class="author-name">' . $row['author'] . '</p>
                                             </div>
                                             <div class="post-text-wrapper">
@@ -592,7 +585,7 @@ if (!isset($_SESSION['logged'])) {
 
                         if ($row['attachments'] != null) {
                             echo ' <div class="post-text-wrapper post-image">
-                                                <img src="./uploaded_images/' . $row["attachments"] . '">
+                                                <img src="../../uploaded_images/' . $row["attachments"] . '">
                                             </div>';
                         }
                         ;
@@ -607,8 +600,13 @@ if (!isset($_SESSION['logged'])) {
                                                         znajomych</span>
                                                         </label>
                                                         </div>
+                                                        <form method="POST" action="../Create/AddComment.php?redirect=' . $row['id'] . '" id="form240">
+                                                        <input type="text" name="comment_input_post_id" value="' . $row['id'] . '" style="display: none;">
+                                                        <input type="text" name="comment_input" placeholder="Wprowadź tekst" class="input-post" style="margin: 20px 0px; width: 50%;">
+                                                            <input type="submit"  class="add-post-button" style="margin: 0px;" value="Dodaj komentarz" name="comment_input_submit">
+                                                        </form>
                                         ';
-                        $comment_result = $conn->query('SELECT * FROM comments WHERE post_id = "' . $row['id'] . '" ORDER BY createdAt DESC LIMIT 3');
+                        $comment_result = $conn->query('SELECT * FROM comments WHERE post_id = "' . $row['id'] . '" ORDER BY createdAt DESC');
 
                         while ($comment_row = $comment_result->fetch_assoc()) {
                             $res = $conn->query('SELECT * FROM users WHERE id = ' . $comment_row['author_id'] . '');
@@ -617,7 +615,7 @@ if (!isset($_SESSION['logged'])) {
 
                                     echo '
                                 <div class="author-info-wrapper" style="margin-top: 20px;">
-                                <img src="App\Images\profile-image.png" class="author-image-profile">
+                                <img src="..\Images\profile-image.png" class="author-image-profile">
                                 <p class="author-name">' .
                                         $row_comment['login']
                                         . '</p>
@@ -635,19 +633,12 @@ if (!isset($_SESSION['logged'])) {
                     ?>
 
                 </div>
-                <div class="add-post-wrapper">
-                    <form method='POST' action='./App/Create/AddPost.php' id="form2">
-                        <input type="text" placeholder="Wprowadź tekst" class="input-post" name='input-post'>
-                        <input type='submit' class="add-post-button" value='Dodaj wpis' name='input-post-submit'>
-                        <input type="hidden" name="typeOfPost" value="public">
-                    </form>
-                </div>
             </div>
         </div>
         <div class="container-right">
             <div class="profile-container">
                 <div class="your-image">
-                    <img src="App\Images\your-image.png">
+                    <img src="..\Images\your-image.png">
                 </div>
                 <div class="your-profile-label">
                     <p class="your-profile-image">
@@ -670,26 +661,22 @@ if (!isset($_SESSION['logged'])) {
                     <h1>Twoje konto</h1>
                 </div>
                 <div class="account-label" onclick="changeName()">
-                    <img src="App\Images\settings.png">
+                    <img src="..\Images\settings.png">
                     <p>Ustawienia</p>
                 </div>
                 <div class="account-label" onclick="logoutPopup()">
-                    <img src="App\Images\logout.png">
+                    <img src="..\Images\logout.png">
                     <p>Wyloguj mnie</p>
                 </div>
                 <div class="account-label block-label" onclick="blockAccount()">
-                    <img src="App\Images\delete.png">
+                    <img src="..\Images\delete.png">
                     <p class="block-account">Zablokuj konto</p>
                 </div>
             </div>
         </div>
     </div>
-    <script src='App\Logout\Logout.js'></script>
+    <script src='..\Logout\Logout.js'></script>
     <script>
-        function redirect(id) {
-            window.location = './App/PostDisplay/PostDisplay.php?postId=' + id
-        }
-
         function changeTopic() {
             let isChecked = false
             const checkbox = document.querySelector("#checkbox-choose-source")
