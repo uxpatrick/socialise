@@ -323,10 +323,8 @@ if (!isset($_SESSION['logged'])) {
         }
 
         .post-label:hover {
-            background: #2E303A;
-            border-radius: 50px;
-            border: 0;
-            padding: 20px;
+            background:#2a2e3c;
+            padding-left:15px;
         }
 
         .main-middle-section {
