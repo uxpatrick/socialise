@@ -12,7 +12,20 @@ if (!isset($_SESSION['logged'])) {
 <head>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800&family=Reem+Kufi+Fun:wght@400;500;600;700&display=swap');
-
+        textarea
+        {
+            min-width: 300px;
+            max-width: 300px;
+            color: white;
+            font-family: 'Outfit';
+            margin-top:-12px !important;
+            margin-bottom:22px !important;
+            padding: 20px !important;
+            /* margin: 12px; */
+            border:none;
+            resize: none;
+        }
+        
         body {
             margin: 0;
             padding: 0;
@@ -404,6 +417,56 @@ if (!isset($_SESSION['logged'])) {
             width: 100%;
             height: 100%;
         }
+        .custom-file-input {
+        color: transparent;
+        }
+        .custom-file-input::-webkit-file-upload-button {
+        visibility: hidden;
+        }
+        .custom-file-input::before {
+            content: 'Wybierz zdjęcie';
+            color: white;
+            display: inline-block;
+            background: #32A8CD;
+            border-radius: 53px;
+            padding: 12px;
+            outline: none;
+            white-space: nowrap;
+            -webkit-user-select: none;
+            cursor: pointer;
+            font-family:Outfit;
+            font-weight: 700;
+            font-weight:400;
+            font-size: 14px;
+        
+        }
+        .add-post-popup-submit{
+            font-family:Outfit;
+            font-weight: 700;
+            font-weight:400;
+            font-size: 14px;
+            background: transparent;
+            color:white;
+            border-radius: 53px;
+            padding: 12px;
+            outline:none;
+            border: 1px solid #32A8CD;
+            width:120px;
+        }
+        input.form-control.custom-file-input {
+            width: 128px;
+        }       
+        .custom-file-input:hover::before {
+        border-color: black;
+        }
+        .custom-file-input:active {
+        outline: 0;
+        }
+        .custom-file-input:active::before {
+        background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9); 
+        }
+
+
     </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -594,7 +657,7 @@ if (!isset($_SESSION['logged'])) {
                     <img src="App\Images\logout.png">
                     <p>Wyloguj mnie</p>
                 </div>
-                <div class="account-label block-label">
+                <div class="account-label block-label" onclick="blockAccount()">
                     <img src="App\Images\delete.png">
                     <p class="block-account">Zablokuj konto</p>
                 </div>
@@ -643,9 +706,9 @@ if (!isset($_SESSION['logged'])) {
         </div>
         <form method=post action='./App/Create/AddPost.php' enctype="multipart/form-data">
         <textarea name="input-post" style="width:80%;margin:10px;padding:10px;border-radius: 20px;background: #323544;color:white;width:50%;"></textarea>
-        <input class="form-control" type="file" name="uploadfile" value="" />
+        <input class="form-control custom-file-input" type="file" name="uploadfile" value=""/>
         <input type="hidden" name="typeOfPost" value="public">
-        <input type=submit name='input-post-submit' value="Dodaj post" >
+        <input type=submit name='input-post-submit' value="Dodaj post" class="add-post-popup-submit" >
         </form>
         </div>
     </div>`
