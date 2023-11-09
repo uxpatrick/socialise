@@ -12,20 +12,20 @@ if (!isset($_SESSION['logged'])) {
 <head>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800&family=Reem+Kufi+Fun:wght@400;500;600;700&display=swap');
-        textarea
-        {
+
+        textarea {
             min-width: 300px;
             max-width: 300px;
             color: white;
             font-family: 'Outfit';
-            margin-top:-12px !important;
-            margin-bottom:22px !important;
+            margin-top: -12px !important;
+            margin-bottom: 22px !important;
             padding: 20px !important;
             /* margin: 12px; */
-            border:none;
+            border: none;
             resize: none;
         }
-        
+
         body {
             margin: 0;
             padding: 0;
@@ -417,12 +417,15 @@ if (!isset($_SESSION['logged'])) {
             width: 100%;
             height: 100%;
         }
+
         .custom-file-input {
-        color: transparent;
+            color: transparent;
         }
+
         .custom-file-input::-webkit-file-upload-button {
-        visibility: hidden;
+            visibility: hidden;
         }
+
         .custom-file-input::before {
             content: 'Wybierz zdjęcie';
             color: white;
@@ -434,39 +437,42 @@ if (!isset($_SESSION['logged'])) {
             white-space: nowrap;
             -webkit-user-select: none;
             cursor: pointer;
-            font-family:Outfit;
+            font-family: Outfit;
             font-weight: 700;
-            font-weight:400;
+            font-weight: 400;
             font-size: 14px;
-        
+
         }
-        .add-post-popup-submit{
-            font-family:Outfit;
+
+        .add-post-popup-submit {
+            font-family: Outfit;
             font-weight: 700;
-            font-weight:400;
+            font-weight: 400;
             font-size: 14px;
             background: transparent;
-            color:white;
+            color: white;
             border-radius: 53px;
             padding: 12px;
-            outline:none;
+            outline: none;
             border: 1px solid #32A8CD;
-            width:120px;
+            width: 120px;
         }
+
         input.form-control.custom-file-input {
             width: 128px;
-        }       
+        }
+
         .custom-file-input:hover::before {
-        border-color: black;
+            border-color: black;
         }
+
         .custom-file-input:active {
-        outline: 0;
+            outline: 0;
         }
+
         .custom-file-input:active::before {
-        background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9); 
+            background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
         }
-
-
     </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -548,9 +554,6 @@ if (!isset($_SESSION['logged'])) {
                         class="second-option"> tylko znajomi</span></h1>
                 <div class="posts-container">
                     <?php
-
-                    $comment_limit = 5;
-
                     $sql = "SELECT * FROM posts where status='public' ORDER BY createdAt DESC";
 
                     $result = $conn->query($sql);

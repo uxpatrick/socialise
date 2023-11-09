@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 08 Lis 2023, 01:53
--- Wersja serwera: 10.4.27-MariaDB
--- Wersja PHP: 8.1.12
+-- Generation Time: Lis 09, 2023 at 11:03 AM
+-- Wersja serwera: 10.4.28-MariaDB
+-- Wersja PHP: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,8 +18,34 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Baza danych: `socialise`
+-- Database: `socialise`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `comments`
+--
+
+CREATE TABLE `comments` (
+  `id` int(11) NOT NULL,
+  `content` varchar(255) NOT NULL,
+  `createdAt` varchar(255) NOT NULL,
+  `author_id` int(11) NOT NULL,
+  `post_id` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `comments`
+--
+
+INSERT INTO `comments` (`id`, `content`, `createdAt`, `author_id`, `post_id`) VALUES
+(32, 'dasdasdas', '2023-11-09 09:42:24', 7, '33'),
+(33, 'sdsaas', '2023-11-09 09:51:33', 7, '33'),
+(34, 'dasdasdsadasdas', '2023-11-09 10:24:17', 7, '33'),
+(35, 'asdasdas', '2023-11-09 10:24:25', 7, '33'),
+(36, 'sdas', '2023-11-09 10:26:01', 7, '33'),
+(37, 'dsadas', '2023-11-09 10:38:45', 7, '33');
 
 -- --------------------------------------------------------
 
@@ -34,7 +60,7 @@ CREATE TABLE `friends` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Zrzut danych tabeli `friends`
+-- Dumping data for table `friends`
 --
 
 INSERT INTO `friends` (`id`, `user_id`, `connected_to`) VALUES
@@ -51,7 +77,8 @@ INSERT INTO `friends` (`id`, `user_id`, `connected_to`) VALUES
 (12, '11', '2'),
 (13, '11', '2'),
 (14, '11', '11'),
-(15, '11', '10');
+(15, '11', '10'),
+(16, '7', '7');
 
 -- --------------------------------------------------------
 
@@ -71,7 +98,7 @@ CREATE TABLE `posts` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Zrzut danych tabeli `posts`
+-- Dumping data for table `posts`
 --
 
 INSERT INTO `posts` (`id`, `content`, `comments`, `author`, `createdAt`, `attachments`, `author_id`, `status`) VALUES
@@ -106,7 +133,8 @@ INSERT INTO `posts` (`id`, `content`, `comments`, `author`, `createdAt`, `attach
 (29, 'dsasad', NULL, 'jumbo', '2023-11-08 01:43:31', '', '10', 'private'),
 (30, 'public', NULL, 'jumbo', '2023-11-08 01:43:59', '', '10', 'public'),
 (31, 'prywat', NULL, 'jumbo', '2023-11-08 01:44:05', '', '10', 'private'),
-(32, 'prywatna krowa', NULL, 'jumbo', '2023-11-08 01:51:21', 0x617274776f726b732d7171474648676473344f695079674e702d7179355a41672d74353030783530302e6a7067, '10', 'private');
+(32, 'prywatna krowa', NULL, 'jumbo', '2023-11-08 01:51:21', 0x617274776f726b732d7171474648676473344f695079674e702d7179355a41672d74353030783530302e6a7067, '10', 'private'),
+(33, 'fasdasd', NULL, 'Sigma', '2023-11-09 08:27:56', 0x3338373333303430355f3139393536333739333038383336395f343336323739353934313830393237343832345f6e2e6a7067, '7', 'public');
 
 -- --------------------------------------------------------
 
@@ -124,7 +152,7 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Zrzut danych tabeli `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `login`, `mail`, `password`, `friend_id`, `friends`) VALUES
@@ -139,6 +167,12 @@ INSERT INTO `users` (`id`, `login`, `mail`, `password`, `friend_id`, `friends`) 
 --
 -- Indeksy dla zrzutów tabel
 --
+
+--
+-- Indeksy dla tabeli `comments`
+--
+ALTER TABLE `comments`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indeksy dla tabeli `friends`
@@ -159,23 +193,29 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT dla zrzuconych tabel
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT dla tabeli `friends`
+-- AUTO_INCREMENT for table `comments`
+--
+ALTER TABLE `comments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+
+--
+-- AUTO_INCREMENT for table `friends`
 --
 ALTER TABLE `friends`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
--- AUTO_INCREMENT dla tabeli `posts`
+-- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
--- AUTO_INCREMENT dla tabeli `users`
+-- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
