@@ -625,7 +625,7 @@ if (!isset($_SESSION['logged'])) {
                                         </label>
                                     </div>
                                 ';
-                                $comment_result = $conn->query('SELECT * FROM comments WHERE post_id = "' . $row['id'] . '" ORDER BY createdAt DESC LIMIT 2');
+                                $comment_result = $conn->query('SELECT * FROM comments WHERE post_id = "' . $customID . '" ORDER BY createdAt DESC LIMIT 2');
                                 $comment_counter = 2;
                                 while ($comment_row = $comment_result->fetch_assoc()) {
                                     $res = $conn->query('SELECT * FROM users WHERE id = ' . $comment_row['author_id'] . '');
