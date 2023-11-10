@@ -212,7 +212,17 @@ if (!isset($_SESSION['logged'])) {
         .your-profile-image {
             font-size: 16px;
         }
+        .post-label {
+            border-top: 1px solid rgba(255, 255, 255, 0.103);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.103);
+            padding: 25px 0 35px 0;
+            transition: .2s all ease-in-out;
+        }
 
+        .post-label:hover {
+            background:#2a2e3c;
+            padding-left:15px;
+        }
         .account-label,
         .tool-label {
             border: 1px solid #222431;
@@ -315,11 +325,6 @@ if (!isset($_SESSION['logged'])) {
             font-family: Outfit;
         }
 
-        .post-label {
-            border-top: 1px solid rgba(255, 255, 255, 0.103);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.103);
-            padding: 25px 0 35px 0;
-        }
 
         .main-middle-section {
             width: 80%;
@@ -481,6 +486,19 @@ if (!isset($_SESSION['logged'])) {
             margin-left:5px;
             border-radius:32px;
         }
+        .rendered-comment{
+            margin-left:40px;
+        }
+        .show-more-comments {
+            color: #32a8cd;
+            text-decoration: underline;
+            padding: 7px;
+            font-weight: 600;
+            font-family: 'Outfit';
+            border-radius: 20px;
+            margin-top: 12px;
+            cursor:pointer;
+        }
     </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -578,7 +596,7 @@ if (!isset($_SESSION['logged'])) {
                                 if($_SESSION['user_id']==$row['user_id'] && $row['connected_to']==$author_id)
                                 {
                                             
-                                    echo '<div class="post-label">
+                                    echo '<div class="post-label" href="PostDisplay.php?postId=' . $row['id'] . '" onclick="redirect(' . $row['id'] . ')">
                                     <div class="author-info-wrapper">
                                         <img src="App\Images\profile-image.png" class="author-image-profile">
                                         <p class="author-name">' . $author . '</p>
@@ -605,7 +623,32 @@ if (!isset($_SESSION['logged'])) {
                                                 znajomych</span>
                                         </label>
                                     </div>
-                                </div>';
+                                ';
+                                $comment_result = $conn->query('SELECT * FROM comments WHERE post_id = "' . $row['id'] . '" ORDER BY createdAt DESC LIMIT 2');
+                                $comment_counter = 2;
+                                while ($comment_row = $comment_result->fetch_assoc()) {
+                                    $res = $conn->query('SELECT * FROM users WHERE id = ' . $comment_row['author_id'] . '');
+                                    if ($comment_row['id'] != null) {
+                                        $comment_counter--;
+                                        while ($row_comment = mysqli_fetch_assoc($res)) {
+                                            if($comment_counter==1){
+                                                echo "<div class='show-more-comments'>Wyświetl więcej komentarzy</div>";
+                                            }
+                                            echo '<div class="rendered-comment">
+                                <div class="author-info-wrapper" style="margin-top: 20px;">
+                                <img src="App\Images\profile-image.png" class="author-image-profile">
+                                <p class="author-name">' .
+                                        $row_comment['login']
+                                        . '</p>
+                                                </div>
+                                                ';
+                                        }
+                                        echo ' <div class="post-text-wrapper">
+                            <span class="post-text-content">' . $comment_row['content'] .'</span>
+                            </div></div>';
+                                    }
+                                }
+                                echo '</div>';
                                     }
                                 }
                             }
@@ -674,6 +717,9 @@ if (!isset($_SESSION['logged'])) {
     </div>
     <script src='App\Logout\Logout.js'></script>
     <script>
+    function redirect(id) {
+        window.location = 'PostDisplay.php?postId=' + id
+    }
     function changeTopic()
         { 
             let isChecked = false

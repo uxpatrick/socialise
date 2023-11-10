@@ -19,7 +19,7 @@ if (!empty($_POST["comment_input_submit"])) {
 }
 
 if ($_GET['redirect'] != null) {
-    header('Location: ../PostDisplay/PostDisplay.php?postId=' . $_GET['redirect'] . '');
+    header('Location: ../../PostDisplay.php?postId=' . $_GET['redirect'] . '');
 } else {
     header('Location: ../../index.php');
 }
