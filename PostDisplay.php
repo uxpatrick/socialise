@@ -570,17 +570,17 @@ if (!isset($_SESSION['logged'])) {
                     </label>
                 </div>
                 <?php
-                $sql = 'SELECT author FROM posts where status="public" and id=' . $_GET['postId'] . ' ORDER BY createdAt DESC';
+                $sql = 'SELECT author FROM posts where id=' . $_GET['postId'] . ' ORDER BY createdAt DESC';
                 $result = $conn->query($sql);
                     while ($row = $result->fetch_assoc()) {
                         echo '<h1 class="type-of-chat-header"><span class="first-option">Sekcja komentarzy</span> | <span
-                        class="second-option"> dla '. $row["author"].' </span></h1>';
+                        class="second-option">'. $row["author"].' </span></h1>';
                     }
                 ?>
                 
                 <div class="posts-container">
                     <?php
-                    $sql = 'SELECT * FROM posts where status="public" and id=' . $_GET['postId'] . ' ORDER BY createdAt DESC';
+                    $sql = 'SELECT * FROM posts where id=' . $_GET['postId'] . ' ORDER BY createdAt DESC';
 
                     $result = $conn->query($sql);
                     while ($row = $result->fetch_assoc()) {
@@ -688,7 +688,7 @@ if (!isset($_SESSION['logged'])) {
     </div>
     <script src='App\Logout\Logout.js'></script>
     <script>
-        function homeSweetHome() {
+            function homeSweetHome() {
             window.location = 'index.php'
         }
         function changeTopic() {
