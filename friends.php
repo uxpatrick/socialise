@@ -635,7 +635,7 @@ if (!isset($_SESSION['logged'])) {
                         while ($row = mysqli_fetch_array($result)) {
                             if ($_SESSION['user_id'] == $row['user_id'] && $row['connected_to'] == $author_id) {
 
-                                echo '<div class="post-label" href="PostDisplay.php?postId=' . $customID . '" onclick="redirect(' . $customID . ')">
+                                echo '<div id='.$customID.' class="post-label" href="PostDisplay.php?postId=' . $customID . '" onclick="redirect(' . $customID . ')">
                                     <div class="author-info-wrapper">
                                         <img src="App\Images\profile-image.png" class="author-image-profile">
                                         <p class="author-name">' . $author . '</p>
