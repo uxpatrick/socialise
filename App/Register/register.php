@@ -14,12 +14,22 @@ if (isset($_POST['login']) && isset($_POST['mail']) && isset($_POST['password'])
     $friendID[0] = $latestID;
     return $friendID;
   }
-
+  function getLast(){
+    $conn = new mysqli('localhost', 'root', '', 'socialise');
+    $sql = "SELECT id, login, mail FROM users order by id desc limit 1";
+    $result = $conn->query($sql);
+    while ($row = $result->fetch_assoc()) {
+      $latestID = $row["id"];
+      $latestID = $latestID + 1;
+      return $latestID;
+    }
+    return $latestID;
+  }
   $login = $_POST['login'];
   $mail = $_POST['mail'];
   $password = md5($_POST['password']);
   $friendID = '#' . generateRandomString();
-
+  $selfAdd = getLast();
   $conn = new mysqli('localhost', 'root', '', 'socialise');
   $sql = "SELECT mail FROM users";
   $result = $conn->query($sql);
@@ -35,6 +45,8 @@ if (isset($_POST['login']) && isset($_POST['mail']) && isset($_POST['password'])
     if (filter_var($mail, FILTER_VALIDATE_EMAIL) && strlen($login) > 3 && strlen($password) > 3) {
       $conn = new mysqli('localhost', 'root', '', 'socialise');
       $sql = "INSERT INTO `users` (`id`, `login`, `mail`, `password`, `friend_id`, `friends`) VALUES (NULL, '" . $login . "', '" . $mail . "', '" . $password . "', '" . $friendID . "', '');";
+      $conn->query($sql);
+      $sql = "INSERT INTO `friends` (`id`, `user_id`, `connected_to`) VALUES (NULL, '".$selfAdd."', '".$selfAdd."');";
       $conn->query($sql);
       $invalidRegister = "<p class='correct-register'>Prawidłowo zarejestrowano konto!</p>";
     } else {

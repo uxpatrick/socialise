@@ -508,6 +508,21 @@ if (!isset($_SESSION['logged'])) {
             margin-left: 5px;
             border-radius: 32px;
         }
+        .rendered-comment{
+            margin-left:40px;
+        }
+        .show-more-comments {
+            color: #32a8cd;
+            text-decoration: underline;
+            padding: 7px;
+            font-weight: 600;
+            font-family: 'Outfit';
+            border-radius: 20px;
+            margin-top: 12px;
+            cursor:pointer;
+        }
+
+
     </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -594,7 +609,7 @@ if (!isset($_SESSION['logged'])) {
 
                     $result = $conn->query($sql);
                     while ($row = $result->fetch_assoc()) {
-                        echo '<div class="post-label" href="./App/PostDisplay/PostDisplay.php?postId=' . $row['id'] . '" onclick="redirect(' . $row['id'] . ')">
+                        echo '<div class="post-label" href="PostDisplay.php?postId=' . $row['id'] . '" onclick="redirect(' . $row['id'] . ')">
                                             <div class="author-info-wrapper">
                                                 <img src="App\Images\profile-image.png" class="author-image-profile">
                                                 <p class="author-name">' . $row['author'] . '</p>
@@ -622,14 +637,17 @@ if (!isset($_SESSION['logged'])) {
                                                         </label>
                                                         </div>
                                         ';
-                        $comment_result = $conn->query('SELECT * FROM comments WHERE post_id = "' . $row['id'] . '" ORDER BY createdAt DESC LIMIT 3');
-
+                        $comment_result = $conn->query('SELECT * FROM comments WHERE post_id = "' . $row['id'] . '" ORDER BY createdAt DESC LIMIT 2');
+                        $comment_counter = 2;
                         while ($comment_row = $comment_result->fetch_assoc()) {
                             $res = $conn->query('SELECT * FROM users WHERE id = ' . $comment_row['author_id'] . '');
                             if ($comment_row['id'] != null) {
+                                $comment_counter--;
                                 while ($row_comment = mysqli_fetch_assoc($res)) {
-
-                                    echo '
+                                    if($comment_counter==1){
+                                        echo "<div class='show-more-comments'>Wyświetl więcej komentarzy</div>";
+                                    }
+                                    echo '<div class="rendered-comment">
                                 <div class="author-info-wrapper" style="margin-top: 20px;">
                                 <img src="App\Images\profile-image.png" class="author-image-profile">
                                 <p class="author-name">' .
@@ -638,9 +656,10 @@ if (!isset($_SESSION['logged'])) {
                                                 </div>
                                                 ';
                                 }
+
                                 echo ' <div class="post-text-wrapper">
-                            <span class="post-text-content">' . $comment_row['content'] . '</span>
-                            </div>';
+                            <span class="post-text-content">' . $comment_row['content'] .'</span>
+                            </div></div>';
                             }
                         }
 
@@ -700,9 +719,11 @@ if (!isset($_SESSION['logged'])) {
     </div>
     <script src='App\Logout\Logout.js'></script>
     <script>
+        document.querySelector("body > div > div.container-left > div.friends-container > div.friends-search > div:nth-child(1)").remove()
         function redirect(id) {
-            window.location = './App/PostDisplay/PostDisplay.php?postId=' + id
+            window.location = 'PostDisplay.php?postId=' + id
         }
+
 
         function changeTopic() {
             let isChecked = false

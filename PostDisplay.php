@@ -442,7 +442,13 @@ if (!isset($_SESSION['logged'])) {
         .custom-file-input::-webkit-file-upload-button {
             visibility: hidden;
         }
-
+        .choose-paragraph-postdisplay{
+            text-decoration:underline;
+            font-family:outfit;
+            color:white;
+            cursor:pointer;
+            font-weight:300;
+        }
         .custom-file-input::before {
             content: 'Wybierz zdjęcie';
             color: white;
@@ -545,7 +551,7 @@ if (!isset($_SESSION['logged'])) {
 
                         while ($row_friend = mysqli_fetch_assoc($result_friend)) {
                             echo '                    <div class="friend-label">
-                            <img src="..\Images\profile-image.png">
+                            <img src="App\Images\profile-image.png">
                             <p>' . $row_friend['login'] . '</p>
                         </div>';
                         }
@@ -563,7 +569,7 @@ if (!isset($_SESSION['logged'])) {
                     <h1>Narzędzia</h1>
                 </div>
                 <div class="tool-label" onClick='addPostPopup()'>
-                    <img src="..\Images\new-post.png">
+                    <img src="App\Images\new-post.png">
                     <p>Nowy post</p>
                 </div>
             </div>
@@ -574,24 +580,29 @@ if (!isset($_SESSION['logged'])) {
             <div class="main-middle-section">
                 <div class="main-choose-wrapper">
                     <label class="choose-paragraph-label">
-                        <p class="choose-paragraph">Wybierz chat
-                        <div id="checkbox-choose-wrapper">
-                            <div id="checkbox-choose-inside"></div>
-                        </div>
+                        <p class="choose-paragraph-postdisplay" onclick="homeSweetHome()">< Powrót na stronę główną
+                        
                         </p>
                     </label>
                 </div>
-                <h1 class="type-of-chat-header"><span class="first-option">Publiczny</span> / <span
-                        class="second-option"> tylko znajomi</span></h1>
+                <?php
+                $sql = 'SELECT author FROM posts where id=' . $_GET['postId'] . ' ORDER BY createdAt DESC';
+                $result = $conn->query($sql);
+                    while ($row = $result->fetch_assoc()) {
+                        echo '<h1 class="type-of-chat-header"><span class="first-option">Sekcja komentarzy</span> | <span
+                        class="second-option">'. $row["author"].' </span></h1>';
+                    }
+                ?>
+                
                 <div class="posts-container">
                     <?php
-                    $sql = 'SELECT * FROM posts where status="public" and id=' . $_GET['postId'] . ' ORDER BY createdAt DESC';
+                    $sql = 'SELECT * FROM posts where id=' . $_GET['postId'] . ' ORDER BY createdAt DESC';
 
                     $result = $conn->query($sql);
                     while ($row = $result->fetch_assoc()) {
                         echo '<div class="post-label">
                                             <div class="author-info-wrapper">
-                                                <img src="..\Images\profile-image.png" class="author-image-profile">
+                                                <img src="App\Images\profile-image.png" class="author-image-profile">
                                                 <p class="author-name">' . $row['author'] . '</p>
                                             </div>
                                             <div class="post-text-wrapper">
@@ -601,7 +612,7 @@ if (!isset($_SESSION['logged'])) {
 
                         if ($row['attachments'] != null) {
                             echo ' <div class="post-text-wrapper post-image">
-                                                <img src="../../uploaded_images/' . $row["attachments"] . '">
+                                                <img src="./uploaded_images/' . $row["attachments"] . '">
                                             </div>';
                         }
                         ;
@@ -616,7 +627,7 @@ if (!isset($_SESSION['logged'])) {
                                                         znajomych</span>
                                                         </label>
                                                         </div>
-                                                        <form method="POST" action="../Create/AddComment.php?redirect=' . $row['id'] . '" id="form240">
+                                                        <form method="POST" action="App/Create/AddComment.php?redirect=' . $row['id'] . '" id="form240">
                                                         <input type="text" name="comment_input_post_id" value="' . $row['id'] . '" style="display: none;">
                                                         <input type="text" name="comment_input" placeholder="Wprowadź tekst" class="input-post" style="margin: 20px 0px; width: 50%;">
                                                             <input type="submit"  class="add-post-button" style="margin: 0px;" value="Dodaj komentarz" name="comment_input_submit">
@@ -631,7 +642,7 @@ if (!isset($_SESSION['logged'])) {
 
                                     echo '
                                 <div class="author-info-wrapper" style="margin-top: 20px;">
-                                <img src="..\Images\profile-image.png" class="author-image-profile">
+                                <img src="App\Images\profile-image.png" class="author-image-profile">
                                 <p class="author-name">' .
                                         $row_comment['login']
                                         . '</p>
@@ -654,7 +665,7 @@ if (!isset($_SESSION['logged'])) {
         <div class="container-right">
             <div class="profile-container">
                 <div class="your-image">
-                    <img src="..\Images\your-image.png">
+                    <img src="App\Images\your-image.png">
                 </div>
                 <div class="your-profile-label">
                     <p class="your-profile-image">
@@ -677,22 +688,26 @@ if (!isset($_SESSION['logged'])) {
                     <h1>Twoje konto</h1>
                 </div>
                 <div class="account-label" onclick="changeName()">
-                    <img src="..\Images\settings.png">
+                    <img src="App\Images\settings.png">
                     <p>Ustawienia</p>
                 </div>
                 <div class="account-label" onclick="logoutPopup()">
-                    <img src="..\Images\logout.png">
+                    <img src="App\Images\logout.png">
                     <p>Wyloguj mnie</p>
                 </div>
                 <div class="account-label block-label" onclick="blockAccount()">
-                    <img src="..\Images\delete.png">
+                    <img src="App\Images\delete.png">
                     <p class="block-account">Zablokuj konto</p>
                 </div>
             </div>
         </div>
     </div>
-    <script src='..\Logout\Logout.js'></script>
+    <script src='App\Logout\Logout.js'></script>
     <script>
+        document.querySelector("body > div > div.container-left > div.friends-container > div.friends-search > div:nth-child(1)").remove()
+            function homeSweetHome() {
+            window.location = 'index.php'
+        }
         function changeTopic() {
             let isChecked = false
             const checkbox = document.querySelector("#checkbox-choose-source")
