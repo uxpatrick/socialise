@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 16 Lis 2023, 11:08
--- Wersja serwera: 10.4.22-MariaDB
--- Wersja PHP: 8.1.2
+-- Generation Time: Lis 16, 2023 at 11:51 AM
+-- Wersja serwera: 10.4.28-MariaDB
+-- Wersja PHP: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Baza danych: `socialise`
+-- Database: `socialise`
 --
 
 -- --------------------------------------------------------
@@ -33,10 +33,10 @@ CREATE TABLE `comments` (
   `createdAt` varchar(255) NOT NULL,
   `author_id` int(11) NOT NULL,
   `post_id` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Zrzut danych tabeli `comments`
+-- Dumping data for table `comments`
 --
 
 INSERT INTO `comments` (`id`, `content`, `createdAt`, `author_id`, `post_id`) VALUES
@@ -73,7 +73,9 @@ INSERT INTO `comments` (`id`, `content`, `createdAt`, `author_id`, `post_id`) VA
 (62, 'fdgfdgfd', '2023-11-16 11:02:16', 24, ''),
 (63, 'dis', '2023-11-16 11:06:15', 24, '51'),
 (64, 'aezakmi', '2023-11-16 11:06:30', 24, '51'),
-(65, 'aaa', '2023-11-16 11:06:38', 24, '59');
+(65, 'aaa', '2023-11-16 11:06:38', 24, '59'),
+(66, 'adsad', '2023-11-16 11:12:43', 8, '57'),
+(67, 'sdsadsadsadasd', '2023-11-16 11:13:18', 8, '38');
 
 -- --------------------------------------------------------
 
@@ -85,10 +87,10 @@ CREATE TABLE `friends` (
   `id` int(11) NOT NULL,
   `user_id` varchar(255) NOT NULL,
   `connected_to` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Zrzut danych tabeli `friends`
+-- Dumping data for table `friends`
 --
 
 INSERT INTO `friends` (`id`, `user_id`, `connected_to`) VALUES
@@ -137,7 +139,10 @@ INSERT INTO `friends` (`id`, `user_id`, `connected_to`) VALUES
 (53, '18', '10'),
 (54, '23', '23'),
 (55, '23', '10'),
-(56, '24', '24');
+(56, '24', '24'),
+(57, '8', '20'),
+(58, '25', '25'),
+(59, '26', '26');
 
 -- --------------------------------------------------------
 
@@ -155,10 +160,10 @@ CREATE TABLE `posts` (
   `author_id` varchar(256) NOT NULL,
   `status` varchar(255) NOT NULL,
   `likes` varchar(1024) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Zrzut danych tabeli `posts`
+-- Dumping data for table `posts`
 --
 
 INSERT INTO `posts` (`id`, `content`, `comments`, `author`, `createdAt`, `attachments`, `author_id`, `status`, `likes`) VALUES
@@ -231,10 +236,10 @@ CREATE TABLE `reactions` (
   `id` int(11) NOT NULL,
   `post_id` varchar(256) NOT NULL,
   `user` varchar(256) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Zrzut danych tabeli `reactions`
+-- Dumping data for table `reactions`
 --
 
 INSERT INTO `reactions` (`id`, `post_id`, `user`) VALUES
@@ -309,7 +314,24 @@ INSERT INTO `reactions` (`id`, `post_id`, `user`) VALUES
 (69, '57', '24'),
 (70, '52', '24'),
 (71, '52', '24'),
-(72, '58', '24');
+(72, '58', '24'),
+(73, '58', '8'),
+(74, '58', '8'),
+(75, '57', '8'),
+(76, '57', '8'),
+(77, '57', '8'),
+(78, '57', '8'),
+(79, '38', '8'),
+(80, '58', '8'),
+(81, '58', '8'),
+(82, '58', '8'),
+(83, '58', '8'),
+(84, '58', '8'),
+(85, '58', '8'),
+(86, '58', '8'),
+(87, '58', '8'),
+(88, '58', '8'),
+(89, '58', '8');
 
 -- --------------------------------------------------------
 
@@ -323,34 +345,37 @@ CREATE TABLE `users` (
   `mail` varchar(128) NOT NULL,
   `password` varchar(1024) NOT NULL,
   `friend_id` varchar(11) NOT NULL,
-  `friends` varchar(128) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `friends` varchar(128) NOT NULL,
+  `avatar_color` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Zrzut danych tabeli `users`
+-- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `login`, `mail`, `password`, `friend_id`, `friends`) VALUES
-(1, 'Patryk', 'patryk@gmail.com', '1070707797e58d10232ea970bf950843', '#1XbhA', '0'),
-(2, 'Kuba', 'kuba@gmail.com', '1070707797e58d10232ea970bf950843', '#2uYhA', ''),
-(7, 'cocko123', 'sigma@gmail.com', 'blocked_account', '#3EuCR', ''),
-(8, 'bukis', 'buki@gmail.com', '9c9e8429c30861ee8d7266b454085635', '#8ugsF', ''),
-(9, 'goryl', 'gorilla@gmail.com', 'blocked_account', '#9KAfg', ''),
-(10, 'jumbo', 'jumbo@gmail.com', '86339f77a68038e75a10733d757cba31', '#1S1Gl', ''),
-(11, 'josik', 'jos@gmail.com', '2b20d52206bc4252810d8a883797126b', '#1IKMu', ''),
-(12, 'kris', 'krzys@gmail.com', '03e13700e25563c0c0a8ffdb48dbbc19', '#1I08W', ''),
-(13, 'pablo', 'pablo@gmail.com', 'blocked_account', '#1iTlH', ''),
-(14, 'nowy', 'nowy@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', '#Array', ''),
-(15, 'check', 'check@gmail.com', '202cb962ac59075b964b07152d234b70', '#Array', ''),
-(16, '1234', 'broker@g.com', '81dc9bdb52d04dc20036dbd8313ed055', '#Array', ''),
-(17, 'mongos123', 'mongos@g.com', 'blocked_account', '#Array', ''),
-(18, 'Mateusz', 'mati@gmail.com', 'b31b9b6bfd41ae0e02ad82fc005bfc65', '#1NLWv', ''),
-(19, 'pobo', 'pobo@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', '#1eljJ', ''),
-(20, 'luckyluke', 'luckyluke@gmail.com', 'blocked_account', '#2GCMU', ''),
-(21, 'patryk', 'self@gmail.com', '9a3037ff76af7d4230729c0341a54e71', '#2KbCT', ''),
-(22, 'przybylski', 'kumpel@gmail.com', 'c86505b1510e7d0cbb1cbe60178ba280', '#29oDs', ''),
-(23, 'bobo', 'bobo@gmail.com', 'e1ce76f012018c45601323addbeae4f6', '#2MymZ', ''),
-(24, 'login1234', 'login123@gmail.com', '0c30bf28c82e104176bd745dc559f0b6', '#2bNEK', '');
+INSERT INTO `users` (`id`, `login`, `mail`, `password`, `friend_id`, `friends`, `avatar_color`) VALUES
+(1, 'Patryk', 'patryk@gmail.com', '1070707797e58d10232ea970bf950843', '#1XbhA', '0', ''),
+(2, 'Kuba', 'kuba@gmail.com', '1070707797e58d10232ea970bf950843', '#2uYhA', '', ''),
+(7, 'cocko123', 'sigma@gmail.com', 'blocked_account', '#3EuCR', '', ''),
+(8, 'bukis', 'buki@gmail.com', '9c9e8429c30861ee8d7266b454085635', '#8ugsF', '', ''),
+(9, 'goryl', 'gorilla@gmail.com', 'blocked_account', '#9KAfg', '', ''),
+(10, 'jumbo', 'jumbo@gmail.com', '86339f77a68038e75a10733d757cba31', '#1S1Gl', '', ''),
+(11, 'josik', 'jos@gmail.com', '2b20d52206bc4252810d8a883797126b', '#1IKMu', '', ''),
+(12, 'kris', 'krzys@gmail.com', '03e13700e25563c0c0a8ffdb48dbbc19', '#1I08W', '', ''),
+(13, 'pablo', 'pablo@gmail.com', 'blocked_account', '#1iTlH', '', ''),
+(14, 'nowy', 'nowy@gmail.com', '81dc9bdb52d04dc20036dbd8313ed055', '#Array', '', ''),
+(15, 'check', 'check@gmail.com', '202cb962ac59075b964b07152d234b70', '#Array', '', ''),
+(16, '1234', 'broker@g.com', '81dc9bdb52d04dc20036dbd8313ed055', '#Array', '', ''),
+(17, 'mongos123', 'mongos@g.com', 'blocked_account', '#Array', '', ''),
+(18, 'Mateusz', 'mati@gmail.com', 'b31b9b6bfd41ae0e02ad82fc005bfc65', '#1NLWv', '', ''),
+(19, 'pobo', 'pobo@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', '#1eljJ', '', ''),
+(20, 'luckyluke', 'luckyluke@gmail.com', 'blocked_account', '#2GCMU', '', ''),
+(21, 'patryk', 'self@gmail.com', '9a3037ff76af7d4230729c0341a54e71', '#2KbCT', '', ''),
+(22, 'przybylski', 'kumpel@gmail.com', 'c86505b1510e7d0cbb1cbe60178ba280', '#29oDs', '', ''),
+(23, 'bobo', 'bobo@gmail.com', 'e1ce76f012018c45601323addbeae4f6', '#2MymZ', '', ''),
+(24, 'login1234', 'login123@gmail.com', '0c30bf28c82e104176bd745dc559f0b6', '#2bNEK', '', ''),
+(25, 'dasda', 's@dsa.c', '098f6bcd4621d373cade4e832627b4f6', '#2fy1k', 'blue', ''),
+(26, 'dsadas', 'a@b.c', '900150983cd24fb0d6963f7d28e17f72', '#2pG0Z', 'green', '');
 
 --
 -- Indeksy dla zrzutów tabel
@@ -387,38 +412,38 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT dla zrzuconych tabel
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT dla tabeli `comments`
+-- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
--- AUTO_INCREMENT dla tabeli `friends`
+-- AUTO_INCREMENT for table `friends`
 --
 ALTER TABLE `friends`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
--- AUTO_INCREMENT dla tabeli `posts`
+-- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
--- AUTO_INCREMENT dla tabeli `reactions`
+-- AUTO_INCREMENT for table `reactions`
 --
 ALTER TABLE `reactions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
 
 --
--- AUTO_INCREMENT dla tabeli `users`
+-- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

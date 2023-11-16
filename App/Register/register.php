@@ -1,5 +1,7 @@
 <?php
 error_reporting(0);
+$colors = ["red", "green", "blue"];
+
 if (isset($_POST['login']) && isset($_POST['mail']) && isset($_POST['password'])) {
   function generateRandomString($length = 5)
   {
@@ -14,7 +16,8 @@ if (isset($_POST['login']) && isset($_POST['mail']) && isset($_POST['password'])
     $friendID[0] = $latestID;
     return $friendID;
   }
-  function getLast(){
+  function getLast()
+  {
     $conn = new mysqli('localhost', 'root', '', 'socialise');
     $sql = "SELECT id, login, mail FROM users order by id desc limit 1";
     $result = $conn->query($sql);
@@ -43,10 +46,13 @@ if (isset($_POST['login']) && isset($_POST['mail']) && isset($_POST['password'])
 
   if ($isMailNew) {
     if (filter_var($mail, FILTER_VALIDATE_EMAIL) && strlen($login) > 3 && strlen($password) > 3) {
+      $random_color_id = array_rand($colors);
+      $random_color = $colors[$random_color_id];
+
       $conn = new mysqli('localhost', 'root', '', 'socialise');
-      $sql = "INSERT INTO `users` (`id`, `login`, `mail`, `password`, `friend_id`, `friends`) VALUES (NULL, '" . $login . "', '" . $mail . "', '" . $password . "', '" . $friendID . "', '');";
+      $sql = "INSERT INTO `users` (`id`, `login`, `mail`, `password`, `friend_id`, `friends`, `avatar_color`) VALUES (NULL, '" . $login . "', '" . $mail . "', '" . $password . "', '" . $friendID . "', '" . $random_color . "', '');";
       $conn->query($sql);
-      $sql = "INSERT INTO `friends` (`id`, `user_id`, `connected_to`) VALUES (NULL, '".$selfAdd."', '".$selfAdd."');";
+      $sql = "INSERT INTO `friends` (`id`, `user_id`, `connected_to`) VALUES (NULL, '" . $selfAdd . "', '" . $selfAdd . "');";
       $conn->query($sql);
       $invalidRegister = "<p class='correct-register'>Prawidłowo zarejestrowano konto!</p>";
     } else {
