@@ -536,7 +536,7 @@ if (!isset($_SESSION['logged'])) {
 
     </style>
     <?php
-    error_reporting(0);
+    error_reporting(1);
     ?>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -658,8 +658,8 @@ if (!isset($_SESSION['logged'])) {
                         $sqlLikes = 'select count(*) from reactions where post_id="'.$tempID.'"';
                         $resultLikes = $conn->query($sqlLikes);
                         $likesCounter = 0;
-                        while ($row = $resultLikes->fetch_assoc()) {
-                            $likesCounter = $row['count(*)'];
+                        while ($rowCustom = $resultLikes->fetch_assoc()) {
+                            $likesCounter = $rowCustom['count(*)'];
                         }
                         echo '
                                             <div class="reactions-wrapper">
@@ -683,6 +683,14 @@ if (!isset($_SESSION['logged'])) {
                             if ($comment_row['id'] != null) {
                                 $comment_counter--;
                                 while ($row_comment = mysqli_fetch_assoc($res)) {
+                                    $tempIDAuthor = $comment_row['author_id'];
+                                    
+                                    $sqlAvatar = 'SELECT * from users where id="'.$tempIDAuthor.'"';
+                                    $tempAvatarColor = 0;
+                                    $resultAvatar = $conn->query($sqlAvatar);
+                                    while ($rowAvatar = $resultAvatar->fetch_assoc()) {
+                                        $tempAvatarColor = $rowAvatar['avatar_color'];
+                                    }
                                     if($comment_counter==1){
                                         echo "<div class='show-more-comments'>Wyświetl więcej komentarzy</div>";
                                     }

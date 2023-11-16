@@ -1,5 +1,5 @@
 <?php
-error_reporting(0);
+error_reporting(1);
 $colors = ["#ff6699", "#3385ff", "#009900", "#9933ff", "#336699", "#996633", "#ffff00", "#333399"];
 
 if (isset($_POST['login']) && isset($_POST['mail']) && isset($_POST['password'])) {

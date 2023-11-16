@@ -538,7 +538,7 @@ if (!isset($_SESSION['logged'])) {
         }
         .author-image-profile {
             border-radius: 999px;
-            padding: 1px;
+            padding: 2px;
         }
     </style>
     <meta charset="UTF-8">
@@ -694,6 +694,14 @@ if (!isset($_SESSION['logged'])) {
                                     $res = $conn->query('SELECT * FROM users WHERE id = ' . $comment_row['author_id'] . '');
                                     if ($comment_row['id'] != null) {
                                         $comment_counter--;
+                                        $tempIDAuthor = $comment_row['author_id'];
+                                    
+                                    $sqlAvatar = 'SELECT * from users where id="'.$tempIDAuthor.'"';
+                                    $tempAvatarColor = 0;
+                                    $resultAvatar = $conn->query($sqlAvatar);
+                                    while ($rowAvatar = $resultAvatar->fetch_assoc()) {
+                                        $tempAvatarColor = $rowAvatar['avatar_color'];
+                                    }
                                         while ($row_comment = mysqli_fetch_assoc($res)) {
                                             if ($comment_counter == 1) {
                                                 echo "<div class='show-more-comments'>Wyświetl więcej komentarzy</div>";
