@@ -1,6 +1,6 @@
 <?php
 error_reporting(0);
-$colors = ["red", "green", "blue"];
+$colors = ["#ff6699", "#3385ff", "#009900", "#9933ff", "#336699", "#996633", "#ffff00", "#333399"];
 
 if (isset($_POST['login']) && isset($_POST['mail']) && isset($_POST['password'])) {
   function generateRandomString($length = 5)
