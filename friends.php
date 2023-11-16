@@ -12,20 +12,20 @@ if (!isset($_SESSION['logged'])) {
 <head>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800&family=Reem+Kufi+Fun:wght@400;500;600;700&display=swap');
-        textarea
-        {
+
+        textarea {
             min-width: 300px;
             max-width: 300px;
             color: white;
             font-family: 'Outfit';
-            margin-top:-12px !important;
-            margin-bottom:22px !important;
+            margin-top: -12px !important;
+            margin-bottom: 22px !important;
             padding: 20px !important;
             /* margin: 12px; */
-            border:none;
+            border: none;
             resize: none;
         }
-        
+
         body {
             margin: 0;
             padding: 0;
@@ -145,6 +145,22 @@ if (!isset($_SESSION['logged'])) {
         .your-friend-id {
             color: #32A8CD;
             font-weight: bold;
+            height: auto;
+            display: flex;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        #your-friend-id-svg svg {
+            width: 20px;
+            height: 20px;
+            stroke: #32A8CD;
+        }
+
+        #your-friend-id-svg {
+            margin-left: 5px;
+            display: flex;
+            align-items: center;
         }
 
         h1 {
@@ -421,12 +437,15 @@ if (!isset($_SESSION['logged'])) {
         div#checkbox-choose-wrapper {
             transform: rotate(180deg);
         }
+
         .custom-file-input {
-        color: transparent;
+            color: transparent;
         }
+
         .custom-file-input::-webkit-file-upload-button {
-        visibility: hidden;
+            visibility: hidden;
         }
+
         .custom-file-input::before {
             content: 'Wybierz zdjęcie';
             color: white;
@@ -438,48 +457,54 @@ if (!isset($_SESSION['logged'])) {
             white-space: nowrap;
             -webkit-user-select: none;
             cursor: pointer;
-            font-family:Outfit;
+            font-family: Outfit;
             font-weight: 700;
-            font-weight:400;
+            font-weight: 400;
             font-size: 14px;
-        
+
         }
-        .add-post-popup-submit{
-            font-family:Outfit;
+
+        .add-post-popup-submit {
+            font-family: Outfit;
             font-weight: 700;
-            font-weight:400;
+            font-weight: 400;
             font-size: 14px;
             background: transparent;
-            color:white;
+            color: white;
             border-radius: 53px;
             padding: 12px;
-            outline:none;
+            outline: none;
             border: 1px solid #32A8CD;
-            width:120px;
+            width: 120px;
         }
+
         input.form-control.custom-file-input {
             width: 128px;
-        }       
+        }
+
         .custom-file-input:hover::before {
-        border-color: black;
+            border-color: black;
         }
+
         .custom-file-input:active {
-        outline: 0;
+            outline: 0;
         }
+
         .custom-file-input:active::before {
-        background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9); 
+            background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
         }
-        .add-friend-plus{
+
+        .add-friend-plus {
             background: #32A8CD;
             outline: none;
             color: white;
             font-family: Outfit;
             font-size: 16px;
             border: none;
-            padding:7px;
-            width:37px;
-            margin-left:5px;
-            border-radius:32px;
+            padding: 7px;
+            width: 37px;
+            margin-left: 5px;
+            border-radius: 32px;
         }
     </style>
     <meta charset="UTF-8">
@@ -497,8 +522,10 @@ if (!isset($_SESSION['logged'])) {
                 <div class="input-label">
                     <form method='POST' action='App/Create/AddFriend.php'>
                         <input class='input-friend-id' type=text placeholder="Podaj ID znajomego"
-                            name='add_friend'><input type='submit' name='add_friend_submit' class="add-friend-plus" value="+">
-                            <input type="hidden" name="typeOfPost" value="private"></form>
+                            name='add_friend'><input type='submit' name='add_friend_submit' class="add-friend-plus"
+                            value="+">
+                        <input type="hidden" name="typeOfPost" value="private">
+                    </form>
                 </div>
                 <div class="friends-search">
                     <?php
@@ -562,23 +589,22 @@ if (!isset($_SESSION['logged'])) {
                         class="first-option"> tylko znajomi</span></h1>
                 <div class="posts-container">
                     <?php
-                        $sql = 'SELECT * FROM posts WHERE status="private" ORDER BY createdAt DESC';
+                    $sql = 'SELECT * FROM posts WHERE status="private" ORDER BY createdAt DESC';
 
-                        $result_friend = $conn->query($sql);
+                    $result_friend = $conn->query($sql);
 
-                        
-                        while ($row = $result_friend->fetch_assoc()) {
-                            $author_id = $row['author_id'];
-                            $author = $row['author'];
-                            $content = $row['content'];
-                            $attachments = $row['attachments'];
 
-                            $result = $conn->query('SELECT * FROM friends');
-                            while ($row = mysqli_fetch_array($result)){
-                                if($_SESSION['user_id']==$row['user_id'] && $row['connected_to']==$author_id)
-                                {
-                                            
-                                    echo '<div class="post-label">
+                    while ($row = $result_friend->fetch_assoc()) {
+                        $author_id = $row['author_id'];
+                        $author = $row['author'];
+                        $content = $row['content'];
+                        $attachments = $row['attachments'];
+
+                        $result = $conn->query('SELECT * FROM friends');
+                        while ($row = mysqli_fetch_array($result)) {
+                            if ($_SESSION['user_id'] == $row['user_id'] && $row['connected_to'] == $author_id) {
+
+                                echo '<div class="post-label">
                                     <div class="author-info-wrapper">
                                         <img src="App\Images\profile-image.png" class="author-image-profile">
                                         <p class="author-name">' . $author . '</p>
@@ -588,13 +614,13 @@ if (!isset($_SESSION['logged'])) {
                                     </div>
                                     ';
 
-                                    if ($attachments != null) {
-                                        echo ' <div class="post-text-wrapper post-image">
+                                if ($attachments != null) {
+                                    echo ' <div class="post-text-wrapper post-image">
                                                             <img src="./uploaded_images/' . $attachments . '">
                                                         </div>';
-                                    }
-                                    ;
-                                    echo '
+                                }
+                                ;
+                                echo '
                                     <div class="reactions-wrapper">
                                         <label>
                                             <span class="reactions-comment"><img src="App\Images\chat-icon.png">Napisz
@@ -606,16 +632,16 @@ if (!isset($_SESSION['logged'])) {
                                         </label>
                                     </div>
                                 </div>';
-                                    }
-                                }
                             }
-                            
+                        }
+                    }
 
 
-                        
-                    
-                    
-                    
+
+
+
+
+
                     $sql = "SELECT * FROM posts ORDER BY createdAt DESC";
 
                     $result = $conn->query($sql);
@@ -627,7 +653,8 @@ if (!isset($_SESSION['logged'])) {
                 <div class="add-post-wrapper">
                     <form method='POST' action='App/Create/AddPost.php' enctype="multipart/form-data">
                         <input type="text" placeholder="Wprowadź tekst" class="input-post" name='input-post'><input
-                            type='submit' class="add-post-button" value='Dodaj wpis' name='input-post-submit'><input type="hidden" name="typeOfPost" value="private">
+                            type='submit' class="add-post-button" value='Dodaj wpis' name='input-post-submit'><input
+                            type="hidden" name="typeOfPost" value="private">
                     </form>
                 </div>
             </div>
@@ -646,7 +673,7 @@ if (!isset($_SESSION['logged'])) {
                             <p class="your-profile-image">
                             ' . $row["login"] . '
                             </p>
-                            <p class="your-friend-id">' . $row['friend_id'] . '</p>
+                            <p class="your-friend-id">' . $row['friend_id'] . '<span id="your-friend-id-svg"></span></p>
                             ';
                         }
                         $conn->close();
@@ -674,8 +701,7 @@ if (!isset($_SESSION['logged'])) {
     </div>
     <script src='App\Logout\Logout.js'></script>
     <script>
-    function changeTopic()
-        { 
+        function changeTopic() {
             let isChecked = false
             const checkbox = document.querySelector("#checkbox-choose-source")
             const checkbox_wrapper = document.querySelector(".choose-paragraph-label")
@@ -683,14 +709,14 @@ if (!isset($_SESSION['logged'])) {
             const chat_second_option = document.querySelector(".second-option")
             const checkbox_inside = document.querySelector("#checkbox-choose-inside")
             checkbox_wrapper.addEventListener('click', () => {
-                if(!isChecked){
+                if (!isChecked) {
                     checkbox_inside.classList.add('checkbox-active')
                     chat_second_option.style.color = "#32A8CD"
                     chat_second_option.style.transition = "0.2s"
                     chat_first_option.style.color = "white"
                     isChecked = true
-                    document.querySelector('.posts-container').innerHTML='<h1>Wczytywanie..</h1>'
-                    window.setTimeout(function(){
+                    document.querySelector('.posts-container').innerHTML = '<h1>Wczytywanie..</h1>'
+                    window.setTimeout(function () {
 
                         window.location.href = 'index.php';
 
@@ -705,11 +731,10 @@ if (!isset($_SESSION['logged'])) {
                 }
             })
         }
-    changeTopic();
-    function addPostPopup() 
-    {
-        document.body.style.overflowY='hidden';
-        document.body.innerHTML +=`<div class='logout-popup-background' style='color:purple;width:100%;height:100%;background:rgba(0,0,0,0.30);backdrop-filter:blur(11px);position:fixed;top:0;margin:0;padding:0;box-sizing:border-box;display:grid;align-items:center;justify-content:center;'>
+        changeTopic();
+        function addPostPopup() {
+            document.body.style.overflowY = 'hidden';
+            document.body.innerHTML += `<div class='logout-popup-background' style='color:purple;width:100%;height:100%;background:rgba(0,0,0,0.30);backdrop-filter:blur(11px);position:fixed;top:0;margin:0;padding:0;box-sizing:border-box;display:grid;align-items:center;justify-content:center;'>
         <div class='logout-popup' style='text-align: center;background:#282A37;width:400px;padding:10px;padding-top:40px;padding-bottom:40px;'>
         <div class='logout-popup-header' style='text-align:center;font-family:ReemKufiFun;font-size:16px;font-style:normal;color:white;margin:10px 0px 15px 0px;'>
             <h1 style='text-align:center;font-family: Reem Kufi Fun;font-weight:600 !important;'>Utwórz nowy post</h1>
@@ -722,14 +747,33 @@ if (!isset($_SESSION['logged'])) {
         </form>
         </div>
     </div>`
-        popUp = document.querySelector('.logout-popup-background')
-        window.addEventListener('click',(e)=>{e.target.style.color=='purple' && closePopup() && changeTopic()})
-    }
-    function closePopup() {
-        document.body.style.overflowY='scroll';
-        popUp.remove(); 
-        changeTopic();
-    }
+            popUp = document.querySelector('.logout-popup-background')
+            window.addEventListener('click', (e) => { e.target.style.color == 'purple' && closePopup() && changeTopic() })
+        }
+        function closePopup() {
+            document.body.style.overflowY = 'scroll';
+            popUp.remove();
+            changeTopic();
+        }
+
+        const friend_id = document.querySelector('.your-friend-id')
+        const svg_span = document.querySelector('#your-friend-id-svg')
+        let copied = false
+
+        svg_span.innerHTML = '<svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m6 19v2c0 .621.52 1 1 1h2v-1.5h-1.5v-1.5zm7.5 3h-3.5v-1.5h3.5zm4.5 0h-3.5v-1.5h3.5zm4-3h-1.5v1.5h-1.5v1.5h2c.478 0 1-.379 1-1zm-1.5-1v-3.363h1.5v3.363zm0-4.363v-3.637h1.5v3.637zm-13-3.637v3.637h-1.5v-3.637zm11.5-4v1.5h1.5v1.5h1.5v-2c0-.478-.379-1-1-1zm-10 0h-2c-.62 0-1 .519-1 1v2h1.5v-1.5h1.5zm4.5 1.5h-3.5v-1.5h3.5zm3-1.5v-2.5h-13v13h2.5v-1.863h1.5v3.363h-4.5c-.48 0-1-.379-1-1v-14c0-.481.38-1 1-1h14c.621 0 1 .522 1 1v4.5h-3.5v-1.5z" fill-rule="nonzero"/></svg>'
+
+        friend_id.addEventListener('click', () => {
+            copied = true
+            console.log(friend_id.textContent)
+            if (copied) {
+                navigator.clipboard.writeText(friend_id.textContent)
+                svg_span.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M9 21.035l-9-8.638 2.791-2.87 6.156 5.874 12.21-12.436 2.843 2.817z" fill="green" stroke="green"/></svg>'
+                setTimeout(() => {
+                    svg_span.innerHTML = '<svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m6 19v2c0 .621.52 1 1 1h2v-1.5h-1.5v-1.5zm7.5 3h-3.5v-1.5h3.5zm4.5 0h-3.5v-1.5h3.5zm4-3h-1.5v1.5h-1.5v1.5h2c.478 0 1-.379 1-1zm-1.5-1v-3.363h1.5v3.363zm0-4.363v-3.637h1.5v3.637zm-13-3.637v3.637h-1.5v-3.637zm11.5-4v1.5h1.5v1.5h1.5v-2c0-.478-.379-1-1-1zm-10 0h-2c-.62 0-1 .519-1 1v2h1.5v-1.5h1.5zm4.5 1.5h-3.5v-1.5h3.5zm3-1.5v-2.5h-13v13h2.5v-1.863h1.5v3.363h-4.5c-.48 0-1-.379-1-1v-14c0-.481.38-1 1-1h14c.621 0 1 .522 1 1v4.5h-3.5v-1.5z" fill-rule="nonzero"/></svg>'
+                    copied = false
+                }, 1000)
+            }
+        })
     </script>
 </body>
 

@@ -1,3 +1,4 @@
+-
 <?php
 session_start();
 $servername = "localhost";
@@ -16,13 +17,18 @@ if (!empty($_POST["add_friend_submit"])) {
     $input_friend = $_POST['add_friend'];
     $typeOfPost = $_POST['typeOfPost'];
     $result = $conn->query('SELECT * FROM users WHERE friend_id="' . $input_friend . '"');
-
+    $friend_result = $conn->query('SELECT * FROM friends WHERE user_id="' . $current_user_id . '" AND connected_to="' . $input_friend . '"');
+    $row_same_friend = $friend_result->fetch_assoc();
     while ($row = $result->fetch_assoc()) {
-        $insert_post_sql = 'INSERT INTO friends (user_id, connected_to) VALUES (' . $current_user_id . ', "' . $row['id'] . '");';
+        if ($row_same_friend['id'] == null) {
+            $insert_post_sql = 'INSERT INTO friends (user_id, connected_to) VALUES (' . $current_user_id . ', "' . $row['id'] . '");';
 
-        $conn->query($insert_post_sql);
+            $conn->query($insert_post_sql);
+        } else {
+            echo 'BŁĄD';
+        }
     }
-    if($typeOfPost=='private'){
+    if ($typeOfPost == 'private') {
         header('Location: ../../friends.php');
         exit();
     }
