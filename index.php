@@ -191,6 +191,10 @@ if (!isset($_SESSION['logged'])) {
             position: relative;
 
         }
+        .author-image-profile {
+            border-radius: 999px;
+            padding: 1px;
+        }
 
         .friend-label {
             color: #9598A7;
