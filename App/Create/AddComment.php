@@ -18,6 +18,11 @@ if (!empty($_POST["comment_input_submit"])) {
     $conn->query('INSERT INTO comments (content, createdAt, author_id, post_id) VALUES ("' . $comment_input_content . '", "' . date("Y-m-d H:i:s") . '", "' . $current_user_id . '", "' . $comment_input_post_id . '");');
 }
 
+if($_POST['hidden_id']){
+    header('Location: ../../PostDisplay.php?postId=' . $_POST['hidden_id'] . '');
+    exit();
+}
+
 if ($_GET['redirect'] != null) {
     header('Location: ../../PostDisplay.php?postId=' . $_GET['redirect'] . '');
 } else {

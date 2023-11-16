@@ -509,6 +509,14 @@ if (!isset($_SESSION['logged'])) {
             margin-left: 5px;
             border-radius: 32px;
         }
+        input.submit-add-friend {
+            background: none;
+            outline: none;
+            border: none;
+            font-family: 'Outfit';
+            color: #9598A7;
+            font-size:16px;
+        }
     </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -586,6 +594,7 @@ if (!isset($_SESSION['logged'])) {
                     </label>
                 </div>
                 <?php
+                error_reporting(0);
                 $sql = 'SELECT author FROM posts where id=' . $_GET['postId'] . ' ORDER BY createdAt DESC';
                 $result = $conn->query($sql);
                     while ($row = $result->fetch_assoc()) {
@@ -600,6 +609,7 @@ if (!isset($_SESSION['logged'])) {
 
                     $result = $conn->query($sql);
                     while ($row = $result->fetch_assoc()) {
+                        $customID = $row['id'];
                         echo '<div class="post-label">
                                             <div class="author-info-wrapper">
                                                 <img src="App\Images\profile-image.png" class="author-image-profile">
@@ -616,6 +626,12 @@ if (!isset($_SESSION['logged'])) {
                                             </div>';
                         }
                         ;
+                        $sqlLikes = 'select count(*) from reactions where post_id="'.$customID.'"';
+                                $resultLikes = $conn->query($sqlLikes);
+                                $likesCounter = 0;
+                                while ($row = $resultLikes->fetch_assoc()) {
+                                    $likesCounter = $row['count(*)'];
+                                }
                         echo '
                                             <div class="reactions-wrapper">
                                                 <label>
@@ -623,17 +639,20 @@ if (!isset($_SESSION['logged'])) {
                                                         komentarz</span>
                                                         </label>
                                                         <label>
-                                                        <span class="reactions-add-friend"><img src="App\Images\add-friend.png">Zaproś do
-                                                        znajomych</span>
+                                                        <form action="App/Create/likeIt.php" method=post><input type=hidden name=sourceOfLike value=PostDisplay.php><input type=hidden name=likePostID value="'.$customID.'"><span class="reactions-add-friend" ><input class="submit-add-friend" type=submit value="Lubię to!"></span></form>
+                                                        </label>
+                                                        <label>
+                                                                <span style="margin-right:-7px;margin-left:14px;" class="reactions-comment"><img src="App\Images\like-button.png"><span style="margin-left:-7px" class="likes-Counter">'.$likesCounter.'</span></span>
                                                         </label>
                                                         </div>
-                                                        <form method="POST" action="App/Create/AddComment.php?redirect=' . $row['id'] . '" id="form240">
-                                                        <input type="text" name="comment_input_post_id" value="' . $row['id'] . '" style="display: none;">
+                                                        <form method="POST" action="App/Create/AddComment.php?redirect=' . $customID . '" id="form240">
+                                                        <input type="text" name="comment_input_post_id" value="' . $customID . '" style="display: none;">
+                                                        <input name="hidden_id" type=hidden value="' . $customID . '"">
                                                         <input type="text" name="comment_input" placeholder="Wprowadź tekst" class="input-post" style="margin: 20px 0px; width: 50%;">
                                                             <input type="submit"  class="add-post-button" style="margin: 0px;" value="Dodaj komentarz" name="comment_input_submit">
                                                         </form>
                                         ';
-                        $comment_result = $conn->query('SELECT * FROM comments WHERE post_id = "' . $row['id'] . '" ORDER BY createdAt DESC');
+                        $comment_result = $conn->query('SELECT * FROM comments WHERE post_id = "' . $customID . '" ORDER BY createdAt DESC');
 
                         while ($comment_row = $comment_result->fetch_assoc()) {
                             $res = $conn->query('SELECT * FROM users WHERE id = ' . $comment_row['author_id'] . '');
@@ -704,6 +723,24 @@ if (!isset($_SESSION['logged'])) {
     </div>
     <script src='App\Logout\Logout.js'></script>
     <script>
+
+        function findHashtags(searchText) {
+            var regexp = /\B\#\w\w+\b/g
+            result = searchText.match(regexp);
+            if (result) {
+                return(result);
+            } else {
+                return false;
+            }
+        }
+        
+        elements = document.querySelectorAll("div.post-text-wrapper")
+        elements.forEach((element)=>{
+            message = element.innerText
+        toReplace = findHashtags(message)
+        element.innerHTML= element.innerHTML.replace(toReplace[0],`<span style="font-weight:bold;color:#32A8CD">${toReplace[0]}</span>`)
+        })
+
         document.querySelector("body > div > div.container-left > div.friends-container > div.friends-search > div:nth-child(1)").remove()
             function homeSweetHome() {
             window.location = 'index.php'

@@ -372,6 +372,14 @@ if (!isset($_SESSION['logged'])) {
             font-family: Outfit;
         }
 
+        input.submit-add-friend {
+            background: none;
+            outline: none;
+            border: none;
+            font-family: 'Outfit';
+            color: #9598A7;
+            font-size:16px;
+        }
         .add-post-wrapper {
             border-radius: 33px;
             background: #282A37;
@@ -643,6 +651,14 @@ if (!isset($_SESSION['logged'])) {
                                                         </div>';
                                 }
                                 ;
+
+                                $sqlLikes = 'select count(*) from reactions where post_id="'.$customID.'"';
+                                $resultLikes = $conn->query($sqlLikes);
+                                $likesCounter = 0;
+                                while ($row = $resultLikes->fetch_assoc()) {
+                                    $likesCounter = $row['count(*)'];
+                                }
+
                                 echo '
                                     <div class="reactions-wrapper">
                                         <label>
@@ -650,9 +666,11 @@ if (!isset($_SESSION['logged'])) {
                                                 komentarz</span>
                                         </label>
                                         <label>
-                                            <span class="reactions-add-friend"><img src="App\Images\add-friend.png">Zaproś do
-                                                znajomych</span>
-                                        </label>
+                                            <form action="App/Create/likeIt.php" method=post><input type=hidden name=sourceOfLike value=friends.php><input type=hidden name=likePostID value="'.$customID.'"><span class="reactions-add-friend" ><input class="submit-add-friend" type=submit value="Lubię to!"></span></form>
+                                            </label>
+                                            <label>
+                                                    <span style="margin-right:-7px;margin-left:14px;" class="reactions-comment"><img src="App\Images\like-button.png"><span style="margin-left:-7px" class="likes-Counter">'.$likesCounter.'</span></span>
+                                            </label>
                                     </div>
                                 ';
                                 $comment_result = $conn->query('SELECT * FROM comments WHERE post_id = "' . $customID . '" ORDER BY createdAt DESC LIMIT 2');
@@ -747,6 +765,22 @@ if (!isset($_SESSION['logged'])) {
     </div>
     <script src='App\Logout\Logout.js'></script>
     <script>
+        function findHashtags(searchText) {
+            var regexp = /\B\#\w\w+\b/g
+            result = searchText.match(regexp);
+            if (result) {
+                return(result);
+            } else {
+                return false;
+            }
+        }
+        
+        elements = document.querySelectorAll("div.post-text-wrapper")
+        elements.forEach((element)=>{
+            message = element.innerText
+        toReplace = findHashtags(message)
+        element.innerHTML= element.innerHTML.replace(toReplace[0],`<span style="font-weight:bold;color:#32A8CD">${toReplace[0]}</span>`)
+        })
         document.querySelector("body > div > div.container-left > div.friends-container > div.friends-search > div:nth-child(1)").remove()
         function redirect(id) {
             window.location = 'PostDisplay.php?postId=' + id

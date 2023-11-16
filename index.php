@@ -420,7 +420,14 @@ if (!isset($_SESSION['logged'])) {
         .reactions-comment img {
             margin-right: 17px;
         }
-
+        input.submit-add-friend {
+            background: none;
+            outline: none;
+            border: none;
+            font-family: 'Outfit';
+            color: #9598A7;
+            font-size:16px;
+        }
         .reactions-wrapper {
             margin-top: 20px;
         }
@@ -524,6 +531,9 @@ if (!isset($_SESSION['logged'])) {
 
 
     </style>
+    <?php
+    error_reporting(0);
+    ?>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aktualności</title>
@@ -608,8 +618,10 @@ if (!isset($_SESSION['logged'])) {
                     $sql = "SELECT * FROM posts where status='public' ORDER BY createdAt DESC";
 
                     $result = $conn->query($sql);
+                    $tempID = 0;
                     while ($row = $result->fetch_assoc()) {
-                        echo '<div class="post-label" href="PostDisplay.php?postId=' . $row['id'] . '" onclick="redirect(' . $row['id'] . ')">
+                        $tempID = $row['id'];
+                        echo '<div id='.$row['id'].' class="post-label" href="PostDisplay.php?postId=' . $row['id'] . '" onclick="redirect(' . $row['id'] . ')">
                                             <div class="author-info-wrapper">
                                                 <img src="App\Images\profile-image.png" class="author-image-profile">
                                                 <p class="author-name">' . $row['author'] . '</p>
@@ -625,15 +637,24 @@ if (!isset($_SESSION['logged'])) {
                                             </div>';
                         }
                         ;
+                        $sqlLikes = 'select count(*) from reactions where post_id="'.$tempID.'"';
+                        $resultLikes = $conn->query($sqlLikes);
+                        $likesCounter = 0;
+                        while ($row = $resultLikes->fetch_assoc()) {
+                            $likesCounter = $row['count(*)'];
+                        }
                         echo '
                                             <div class="reactions-wrapper">
-                                                <label>
+                                                
+                                                <label style="margin-left:17px">
                                                     <span class="reactions-comment"><img src="App\Images\chat-icon.png">Napisz
                                                         komentarz</span>
+                                                </label>
+                                                        <label>
+                                                        <form action="App/Create/likeIt.php" method=post><input type=hidden name=sourceOfLike value=index.php><input type=hidden name=likePostID value="'.$tempID.'"><span class="reactions-add-friend" ><input class="submit-add-friend" type=submit value="Lubię to!"></span></form>
                                                         </label>
                                                         <label>
-                                                        <span class="reactions-add-friend"><img src="App\Images\add-friend.png">Zaproś do
-                                                        znajomych</span>
+                                                    <span style="margin-right:-7px;margin-left:14px;" class="reactions-comment"><img src="App\Images\like-button.png"><span style="margin-left:-7px" class="likes-Counter">'.$likesCounter.'</span></span>
                                                         </label>
                                                         </div>
                                         ';
@@ -719,6 +740,26 @@ if (!isset($_SESSION['logged'])) {
     </div>
     <script src='App\Logout\Logout.js'></script>
     <script>
+
+
+        function findHashtags(searchText) {
+            var regexp = /\B\#\w\w+\b/g
+            result = searchText.match(regexp);
+            if (result) {
+                return(result);
+            } else {
+                return false;
+            }
+        }
+        
+        elements = document.querySelectorAll("div.post-text-wrapper")
+        elements.forEach((element)=>{
+            message = element.innerText
+        toReplace = findHashtags(message)
+        element.innerHTML= element.innerHTML.replace(toReplace[0],`<span style="font-weight:bold;color:#32A8CD">${toReplace[0]}</span>`)
+
+        })
+
         document.querySelector("body > div > div.container-left > div.friends-container > div.friends-search > div:nth-child(1)").remove()
         function redirect(id) {
             window.location = 'PostDisplay.php?postId=' + id
