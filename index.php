@@ -582,6 +582,9 @@ if (!isset($_SESSION['logged'])) {
                     }
 
                     ?>
+                    <script>
+                        document.querySelector("body > div > div.container-left > div.friends-container > div.friends-search > div:nth-child(1)").remove()
+                    </script>
                 </div>
 
                 <div class="friends-list">
@@ -751,7 +754,7 @@ if (!isset($_SESSION['logged'])) {
                 return false;
             }
         }
-        
+
         elements = document.querySelectorAll("div.post-text-wrapper")
         elements.forEach((element)=>{
             message = element.innerText
@@ -760,7 +763,6 @@ if (!isset($_SESSION['logged'])) {
 
         })
 
-        document.querySelector("body > div > div.container-left > div.friends-container > div.friends-search > div:nth-child(1)").remove()
         function redirect(id) {
             window.location = 'PostDisplay.php?postId=' + id
         }

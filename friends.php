@@ -586,6 +586,9 @@ if (!isset($_SESSION['logged'])) {
                     }
 
                     ?>
+                    <script>
+                        document.querySelector("body > div > div.container-left > div.friends-container > div.friends-search > div:nth-child(1)").remove()
+                    </script>
                 </div>
 
                 <div class="friends-list">
@@ -781,7 +784,7 @@ if (!isset($_SESSION['logged'])) {
         toReplace = findHashtags(message)
         element.innerHTML= element.innerHTML.replace(toReplace[0],`<span style="font-weight:bold;color:#32A8CD">${toReplace[0]}</span>`)
         })
-        document.querySelector("body > div > div.container-left > div.friends-container > div.friends-search > div:nth-child(1)").remove()
+
         function redirect(id) {
             window.location = 'PostDisplay.php?postId=' + id
         }
