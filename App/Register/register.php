@@ -50,7 +50,7 @@ if (isset($_POST['login']) && isset($_POST['mail']) && isset($_POST['password'])
       $random_color = $colors[$random_color_id];
 
       $conn = new mysqli('localhost', 'root', '', 'socialise');
-      $sql = "INSERT INTO `users` (`id`, `login`, `mail`, `password`, `friend_id`, `friends`, `avatar_color`) VALUES (NULL, '" . $login . "', '" . $mail . "', '" . $password . "', '" . $friendID . "', '" . $random_color . "', '');";
+      $sql = "INSERT INTO `users` (`id`, `login`, `mail`, `password`, `friend_id`, `friends`, `avatar_color`) VALUES (NULL, '" . $login . "', '" . $mail . "', '" . $password . "', '" . $friendID . "', '', '" . $random_color . "');";
       $conn->query($sql);
       $sql = "INSERT INTO `friends` (`id`, `user_id`, `connected_to`) VALUES (NULL, '" . $selfAdd . "', '" . $selfAdd . "');";
       $conn->query($sql);
