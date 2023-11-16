@@ -536,6 +536,10 @@ if (!isset($_SESSION['logged'])) {
             margin-top: 12px;
             cursor: pointer;
         }
+        .author-image-profile {
+            border-radius: 999px;
+            padding: 1px;
+        }
     </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -633,6 +637,14 @@ if (!isset($_SESSION['logged'])) {
                         $content = $row['content'];
                         $attachments = $row['attachments'];
                         $customID = $row['id'];
+                        
+                        $tempIDAuthor = $row['author_id'];
+                        $sqlAvatar = 'SELECT * from users where id="'.$tempIDAuthor.'"';
+                        $tempAvatarColor = 0;
+                        $resultAvatar = $conn->query($sqlAvatar);
+                        while ($rowAvatar = $resultAvatar->fetch_assoc()) {
+                            $tempAvatarColor = $rowAvatar['avatar_color'];
+                        }
 
                         $result = $conn->query('SELECT * FROM friends');
                         while ($row = mysqli_fetch_array($result)) {
@@ -640,7 +652,7 @@ if (!isset($_SESSION['logged'])) {
 
                                 echo '<div id='.$customID.' class="post-label" href="PostDisplay.php?postId=' . $customID . '" onclick="redirect(' . $customID . ')">
                                     <div class="author-info-wrapper">
-                                        <img src="App\Images\profile-image.png" class="author-image-profile">
+                                    <img src="App\Images\profile-image.png" class="author-image-profile" style="background:'.$tempAvatarColor.'">
                                         <p class="author-name">' . $author . '</p>
                                     </div>
                                     <div class="post-text-wrapper">
@@ -688,7 +700,7 @@ if (!isset($_SESSION['logged'])) {
                                             }
                                             echo '<div class="rendered-comment">
                                 <div class="author-info-wrapper" style="margin-top: 20px;">
-                                <img src="App\Images\profile-image.png" class="author-image-profile">
+                                <img src="App\Images\profile-image.png" class="author-image-profile" style="background:'.$tempAvatarColor.'">
                                 <p class="author-name">' .
                                                 $row_comment['login']
                                                 . '</p>

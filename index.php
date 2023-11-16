@@ -627,10 +627,21 @@ if (!isset($_SESSION['logged'])) {
                     $result = $conn->query($sql);
                     $tempID = 0;
                     while ($row = $result->fetch_assoc()) {
+
+                        
+
                         $tempID = $row['id'];
+                        $tempIDAuthor = $row['author_id'];
+
+                        $sqlAvatar = 'SELECT * from users where id="'.$tempIDAuthor.'"';
+                        $tempAvatarColor = 0;
+                        $resultAvatar = $conn->query($sqlAvatar);
+                        while ($rowAvatar = $resultAvatar->fetch_assoc()) {
+                            $tempAvatarColor = $rowAvatar['avatar_color'];
+                        }
                         echo '<div id='.$row['id'].' class="post-label" href="PostDisplay.php?postId=' . $row['id'] . '" onclick="redirect(' . $row['id'] . ')">
                                             <div class="author-info-wrapper">
-                                                <img src="App\Images\profile-image.png" class="author-image-profile">
+                                                <img src="App\Images\profile-image.png" class="author-image-profile" style="background:'.$tempAvatarColor.'">
                                                 <p class="author-name">' . $row['author'] . '</p>
                                             </div>
                                             <div class="post-text-wrapper">
@@ -677,7 +688,7 @@ if (!isset($_SESSION['logged'])) {
                                     }
                                     echo '<div class="rendered-comment">
                                 <div class="author-info-wrapper" style="margin-top: 20px;">
-                                <img src="App\Images\profile-image.png" class="author-image-profile">
+                                <img src="App\Images\profile-image.png" class="author-image-profile" style="background:'.$tempAvatarColor.'">
                                 <p class="author-name">' .
                                         $row_comment['login']
                                         . '</p>

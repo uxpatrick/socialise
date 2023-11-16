@@ -466,6 +466,10 @@ if (!isset($_SESSION['logged'])) {
             font-size: 14px;
 
         }
+        .author-image-profile {
+            border-radius: 999px;
+            padding: 1px;
+        }
 
         .add-post-popup-submit {
             font-family: Outfit;
@@ -615,7 +619,7 @@ if (!isset($_SESSION['logged'])) {
                         $customID = $row['id'];
                         echo '<div class="post-label">
                                             <div class="author-info-wrapper">
-                                                <img src="App\Images\profile-image.png" class="author-image-profile">
+                                            <img src="App\Images\profile-image.png" class="author-image-profile" style="background:'.$tempAvatarColor.'">
                                                 <p class="author-name">' . $row['author'] . '</p>
                                             </div>
                                             <div class="post-text-wrapper">
@@ -659,12 +663,19 @@ if (!isset($_SESSION['logged'])) {
 
                         while ($comment_row = $comment_result->fetch_assoc()) {
                             $res = $conn->query('SELECT * FROM users WHERE id = ' . $comment_row['author_id'] . '');
+
                             if ($comment_row['id'] != null) {
                                 while ($row_comment = mysqli_fetch_assoc($res)) {
-
+                                    $tempIDAuthor = $row_comment['id'];
+                                    $sqlAvatar = 'SELECT * from users where id="'.$tempIDAuthor.'"';
+                                    $tempAvatarColor = 0;
+                                    $resultAvatar = $conn->query($sqlAvatar);
+                                    while ($rowAvatar = $resultAvatar->fetch_assoc()) {
+                                        $tempAvatarColor = $rowAvatar['avatar_color'];
+                                    }
                                     echo '
                                 <div class="author-info-wrapper" style="margin-top: 20px;">
-                                <img src="App\Images\profile-image.png" class="author-image-profile">
+                                <img src="App\Images\profile-image.png" class="author-image-profile" style="background:'.$tempAvatarColor.'">
                                 <p class="author-name">' .
                                         $row_comment['login']
                                         . '</p>
