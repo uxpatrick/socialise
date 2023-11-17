@@ -349,7 +349,9 @@ if (!isset($_SESSION['logged'])) {
             max-height: 100dvh;
             overflow-y: auto;
         }
-
+        input{
+            font-family:Outfit;
+        }
         .post-text-wrapper {
             padding: 16px;
             margin-top: 20px;
@@ -563,7 +565,7 @@ if (!isset($_SESSION['logged'])) {
 
                         while ($row_friend = mysqli_fetch_assoc($result_friend)) {
                             echo '                    <div class="friend-label">
-                            <img src="App\Images\profile-image.png">
+                            <img src="App\Images\profile-image.png" style="border-radius:999px;background:'.$row_friend['avatar_color'].'">
                             <p>' . $row_friend['login'] . '</p>
                         </div>';
                         }
@@ -613,10 +615,22 @@ if (!isset($_SESSION['logged'])) {
                 <div class="posts-container">
                     <?php
                     $sql = 'SELECT * FROM posts where id=' . $_GET['postId'] . ' ORDER BY createdAt DESC';
+                    $tempAvatarColor = 0;
+                    
 
                     $result = $conn->query($sql);
                     while ($row = $result->fetch_assoc()) {
+
+                        $sqlAvatarColor = 'SELECT * FROM users where id=' . $row['author_id'];
+                        $resultAvatar = $conn->query($sqlAvatarColor);
+                        while ($row_avatar_color = $resultAvatar->fetch_assoc()) {
+                            $tempAvatarColor = $row_avatar_color['avatar_color'];
+                        }
+                        
                         $customID = $row['id'];
+
+                        $typePost = $row['status'];
+
                         echo '<div class="post-label">
                                             <div class="author-info-wrapper">
                                             <img src="App\Images\profile-image.png" class="author-image-profile" style="background:'.$tempAvatarColor.'">
@@ -698,7 +712,9 @@ if (!isset($_SESSION['logged'])) {
         <div class="container-right">
             <div class="profile-container">
                 <div class="your-image">
-                    <img src="App\Images\your-image.png">
+                    <?php
+                    echo '<img src="App\Images\your-image.png" style="border-radius:999px;background:'.$_SESSION['self_avatar'].'">';
+                    ?>
                 </div>
                 <div class="your-profile-label">
                     <p class="your-profile-image">
@@ -741,7 +757,8 @@ if (!isset($_SESSION['logged'])) {
         function findHashtags(searchText) {
             var regexp = /\B\#\w\w+\b/g
             result = searchText.match(regexp);
-            if (result) {
+            if (!!result) {
+                console.log(result)
                 return(result);
             } else {
                 return false;
@@ -749,15 +766,39 @@ if (!isset($_SESSION['logged'])) {
         }
         
         elements = document.querySelectorAll("div.post-text-wrapper")
+        form = document.querySelector("body > div > div.container-left > div.friends-container > div.input-label > form")
+        inputForm = document.querySelector("body > div > div.container-left > div.friends-container > div.input-label > form > input.input-friend-id")
+        buttonForm = document.querySelector("body > div > div.container-left > div.friends-container > div.input-label > form > input.add-friend-plus")
         elements.forEach((element)=>{
             message = element.innerText
-        toReplace = findHashtags(message)
-        element.innerHTML= element.innerHTML.replace(toReplace[0],`<span style="font-weight:bold;color:#32A8CD">${toReplace[0]}</span>`)
+            element.setAttribute('title', 'Dodaj do znajomych')
+            element.style.cursor='pointer';
+            
+            element.addEventListener('click',() => {
+                if(!!findHashtags(element.innerText)[0]){
+                    inputForm.value = findHashtags(element.innerText)[0]
+                }
+            })
+            toReplace = findHashtags(message)
+            element.innerHTML= element.innerHTML.replace(toReplace[0],`<span style="font-weight:bold;color:#32A8CD">${toReplace[0]}</span>`)
         })
-
+        <?php
+        if($typePost=='public'){
+            echo"
             function homeSweetHome() {
-            window.location = 'index.php'
-        }
+                window.location = 'index.php'
+            }
+            ";}
+            else{
+            echo"
+            function homeSweetHome() {
+                window.location = 'friends.php'
+            }
+            ";
+            }
+        
+        ?>
+            
         function changeTopic() {
             let isChecked = false
             const checkbox = document.querySelector("#checkbox-choose-source")

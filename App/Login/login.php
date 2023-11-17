@@ -17,6 +17,7 @@ if (isset($_POST['mail']) && isset($_POST['password'])) {
   while ($row = $result->fetch_assoc()) {
     $_SESSION['logged'] = True;
     $_SESSION['user_id'] = $row['id'];
+    $_SESSION['self_avatar'] = $row['avatar_color'];
     header('Location: ../../index.php');
   }
 

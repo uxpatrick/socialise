@@ -323,7 +323,9 @@ if (!isset($_SESSION['logged'])) {
             display: flex;
             align-items: center;
         }
-
+        input{
+            font-family:Outfit;
+        }
         .author-name {
             font-size: 16px;
             color: white;
@@ -583,7 +585,7 @@ if (!isset($_SESSION['logged'])) {
 
                         while ($row_friend = mysqli_fetch_assoc($result_friend)) {
                             echo '                    <div class="friend-label">
-                            <img src="App\Images\profile-image.png">
+                            <img src="App\Images\profile-image.png" style="border-radius:999px;background:'.$row_friend['avatar_color'].'">
                             <p>' . $row_friend['login'] . '</p>
                         </div>';
                         }
@@ -749,7 +751,9 @@ if (!isset($_SESSION['logged'])) {
         <div class="container-right">
             <div class="profile-container">
                 <div class="your-image">
-                    <img src="App\Images\your-image.png">
+                    <?php
+                    echo '<img src="App\Images\your-image.png" style="border-radius:999px;background:'.$_SESSION['self_avatar'].'">'
+                    ?>
                 </div>
                 <div class="your-profile-label">
                     <p class="your-profile-image">
@@ -801,6 +805,9 @@ if (!isset($_SESSION['logged'])) {
         elements = document.querySelectorAll("div.post-text-wrapper")
         elements.forEach((element)=>{
             message = element.innerText
+            element.addEventListener('click',()=>{
+                console.log(element.innerText);
+            })
         toReplace = findHashtags(message)
         element.innerHTML= element.innerHTML.replace(toReplace[0],`<span style="font-weight:bold;color:#32A8CD">${toReplace[0]}</span>`)
         })

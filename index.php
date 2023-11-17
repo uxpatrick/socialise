@@ -103,7 +103,9 @@ if (!isset($_SESSION['logged'])) {
             font-family: Outfit;
             font-size: 16px;
         }
-
+        input{
+            font-family:Outfit;
+        }
         .friends-container,
         .tool-container,
         .profile-container,
@@ -579,7 +581,7 @@ if (!isset($_SESSION['logged'])) {
 
                         while ($row_friend = mysqli_fetch_assoc($result_friend)) {
                             echo '                    <div class="friend-label">
-                            <img src="App\Images\profile-image.png">
+                            <img src="App\Images\profile-image.png" style="border-radius:999px;background:'.$row_friend['avatar_color'].'">
                             <p>' . $row_friend['login'] . '</p>
                         </div>';
                         }
@@ -665,11 +667,11 @@ if (!isset($_SESSION['logged'])) {
                                             <div class="reactions-wrapper">
                                                 
                                                 <label style="margin-left:17px">
-                                                    <span class="reactions-comment"><img src="App\Images\chat-icon.png">Napisz
+                                                    <span style="cursor:pointer;" class="reactions-comment"><img src="App\Images\chat-icon.png">Napisz
                                                         komentarz</span>
                                                 </label>
                                                         <label>
-                                                        <form action="App/Create/likeIt.php" method=post><input type=hidden name=sourceOfLike value=index.php><input type=hidden name=likePostID value="'.$tempID.'"><span class="reactions-add-friend" ><input class="submit-add-friend" type=submit value="Lubię to!"></span></form>
+                                                        <form action="App/Create/likeIt.php" method=post><input type=hidden name=sourceOfLike value=index.php><input type=hidden name=likePostID value="'.$tempID.'"><span class="reactions-add-friend" ><input class="submit-add-friend" style="cursor:pointer;" type=submit value="Lubię to!"></span></form>
                                                         </label>
                                                         <label>
                                                     <span style="margin-right:-7px;margin-left:14px;" class="reactions-comment"><img src="App\Images\like-button.png"><span style="margin-left:-7px" class="likes-Counter">'.$likesCounter.'</span></span>
@@ -727,7 +729,9 @@ if (!isset($_SESSION['logged'])) {
         <div class="container-right">
             <div class="profile-container">
                 <div class="your-image">
-                    <img src="App\Images\your-image.png">
+                    <?php
+                    echo '<img src="App\Images\your-image.png" style="border-radius:999px;background:'.$_SESSION['self_avatar'].'">'
+                    ?>
                 </div>
                 <div class="your-profile-label">
                     <p class="your-profile-image">
@@ -781,6 +785,8 @@ if (!isset($_SESSION['logged'])) {
         elements = document.querySelectorAll("div.post-text-wrapper")
         elements.forEach((element)=>{
             message = element.innerText
+            element.setAttribute('title', 'Dodaj do znajomych')
+            element.style.cursor='pointer';
         toReplace = findHashtags(message)
         element.innerHTML= element.innerHTML.replace(toReplace[0],`<span style="font-weight:bold;color:#32A8CD">${toReplace[0]}</span>`)
 
