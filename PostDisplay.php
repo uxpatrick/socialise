@@ -630,7 +630,7 @@ if (!isset($_SESSION['logged'])) {
                         $customID = $row['id'];
 
                         $typePost = $row['status'];
-
+                        
                         echo '<div class="post-label">
                                             <div class="author-info-wrapper">
                                             <img src="App\Images\profile-image.png" class="author-image-profile" style="background:'.$tempAvatarColor.'">
